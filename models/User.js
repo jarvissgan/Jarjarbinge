@@ -1,15 +1,24 @@
 "use strict";
 
 class User{
-    constructor(userID, name, password, firstName, lastName, address, number, email, bookmarked){
-        this.userID; this.name; this.password; this.firstName; this.lastName, this.address, this.number, this.email, this.bookmarked;
+    constructor(userID, username, password, firstName, lastName, address, number, email, bookmarked, userPicture){
+        this.userID =  userID;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.number = number;
+        this.email = email;
+        this.bookmarked = bookmarked;
+        this.userPicture = userPicture;
     }
     //get functions
     getUserID(){
         return this.userID;
     }
     getUserName(){
-        return this.name;
+        return this.username;
     }
     getUserPassword(){
         return this.password;
@@ -32,13 +41,16 @@ class User{
     getUserBookmark(){
         return this.bookmarked;
     }
+    getUserPicture(){
+        return this.userPicture;
+    }
 
     //set functions
     setUserID(userID){
         this.userID = userID
     }
-    setUserName(name){
-        this.name = name
+    setUserName(username){
+        this.name = username
     }
     setUserPassword(password){
         this.password = password
@@ -59,10 +71,14 @@ class User{
         this.email = email;
     }
     setUserBookmark(bookmarked){
-        //TODO: check if blobs can be simply x = x lol,
+        //TODO: check if json can be simply x = x lol,
         //might not be so simple
-        this.bookmarked = bookmarked
+        this.bookmarked = bookmarked;
+    }
+    setUserPicture(userPicture){
+        //TODO:check if blobs can be set like this
+        this.userPicture = userPicture;
     }
 
 }
-module.exports = Review;
+module.exports = User;
