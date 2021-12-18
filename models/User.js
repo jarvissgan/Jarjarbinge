@@ -4,41 +4,64 @@ class User{
     constructor(userID, name, password, firstName, lastName, address, number, email, bookmarked){
         this.userID; this.name; this.password; this.firstName; this.lastName, this.address, this.number, this.email, this.bookmarked;
     }
-    getID(){
-        return this.id;
-    }
-    getReviewID(){
-        return this.reviewID;
-    }
+    //get functions
     getUserID(){
         return this.userID;
     }
-    getTitle(){
-        return this.title;
+    getUserName(){
+        return this.name;
     }
-    getRating(){
-        return this.rating;
+    getUserPassword(){
+        return this.password;
     }
-    getSubmissionDate(){
-        return this.submissionDate;
+    getFirstName(){
+        return this.firstName;
     }
-    setReviewID(reviewID){
-        this.reviewID = reviewID;
+    getLastName(){
+        return this.lastName;
     }
+    getUserAddress(){
+        return this.address;
+    }
+    getUserNumber(){
+        return this.number;
+    }
+    getUserEmail(){
+        return this.email;
+    }
+    getUserBookmark(){
+        return this.bookmarked;
+    }
+
+    //set functions
     setUserID(userID){
-        this.userID = userID;
+        this.userID = userID
     }
-    setTitle(title){
-        this.title = title ;
+    setUserName(name){
+        this.name = name
     }
-    setReview(review){
-        this.review = review;
+    setUserPassword(password){
+        this.password = password
     }
-    setRating(rating){
-        this.rating = rating;
+    setFirstName(firstName){
+        this.firstName = firstName;
     }
-    setSubmissionDate(submissionDate){
-        this.submissionDate = submissionDate;
+    setLastName(lastName){
+        this.lastName = lastName;
+    }
+    setUserAddress(address){
+        this.address = address;
+    }
+    setUserNumber(number){
+        this.number = number;
+    }
+    setUserEmail(email){
+        this.email = email;
+    }
+    setUserBookmark(bookmarked){
+        //TODO: check if blobs can be simply x = x lol,
+        //might not be so simple
+        this.bookmarked = bookmarked
     }
 
 }
