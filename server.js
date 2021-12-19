@@ -9,8 +9,16 @@ var app = express();
 app.use(express.static("./public"));
 app.use(express.json());
 
-app.route('/review').get(reviewController.getAllReview);
 app.route('/restaurant').get(restaurantController.getAllRestaurant);
+app.route('/restaurant').post(restaurantController.addRestaurant);
+app.route('/restaurant/:id').delete(restaurantController.deleteRestaurant);
+app.route('/restaurant/:id').put(restaurantController.updateRestaurant);
+
+
+app.route('/review').get(reviewController.getAllReview);
+app.route('/review').post(reviewController.addReview);
+app.route('/review/:id').delete(reviewController.deleteReview);
+app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
 app.route('/user').post(userController.addUser);

@@ -1,11 +1,8 @@
 "use strict";
 
 class Review{
-    constructor(id, reviewID, userID, title, review, rating, submissionDate){
-        this.id; this.reviewID; this.userID; this.title; this.review; this.rating; this.submissionDate;
-    }
-    getID(){
-        return this.id;
+    constructor(reviewID, userID, restaurantID, title, review, rating, submissionDate){
+        this.reviewID = reviewID; this.userID = userID; this.restaurantID = restaurantID; this.title = title; this.review = review; this.rating = rating; this.submissionDate = submissionDate;
     }
     getReviewID(){
         return this.reviewID;
@@ -13,8 +10,14 @@ class Review{
     getUserID(){
         return this.userID;
     }
+    getRestaurantID(){
+        return this.restaurantID;
+    }
     getTitle(){
         return this.title;
+    }
+    getReview(){
+        return this.review;
     }
     getRating(){
         return this.rating;
@@ -28,8 +31,11 @@ class Review{
     setUserID(userID){
         this.userID = userID;
     }
+    setRestaurantID(restaurantID){
+        this.restaurantID = restaurantID;
+    }
     setTitle(title){
-        this.title = title ;
+        this.title = title;
     }
     setReview(review){
         this.review = review;
