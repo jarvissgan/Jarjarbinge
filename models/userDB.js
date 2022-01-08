@@ -15,8 +15,14 @@ class UserDB{
         return db.query(sql, [user], callback);
     }
     updateUser(user, callback){
-        var sql = "UPDATE user SET username = ?, password = ?, firstName = ?, lastName = ?, address = ?, number = ?, email = ?, bookmarked = ?, userPicture = ? WHERE userID = ?";
-        return db.query(sql, [user.getUserName(), user.getUserPassword(), user.getFirstName(), user.getLastName(), user.getUserAddress(), user.getUserNumber(), user.getUserEmail(), user.getUserBookmark(),user.getUserPicture(), user.getUserID()], callback);
+        var sql = "UPDATE user SET password = ?, firstName = ?, lastName = ?, address = ?, number = ?, email = ?, bookmarked = ?, userPicture = ? WHERE username = ?";
+        return db.query(sql, [user.getUserPassword(), user.getFirstName(), user.getLastName(), user.getUserAddress(), user.getUserNumber(), user.getUserEmail(), user.getUserBookmark(),user.getUserPicture(), user.getUserName()], callback);
+    }
+
+    //checks if user exists
+    loginUser(username, callback){
+        var sql = "SELECT password FROM jarjarbinge.user WHERE username = ?";
+        db.query(sql,[username], callback)
     }
 }
 module.exports = UserDB;

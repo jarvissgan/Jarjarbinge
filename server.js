@@ -23,6 +23,9 @@ app.route('/review/:id').put(reviewController.updateReview);
 app.route('/user').get(userController.getAllUser);
 app.route('/user').post(userController.addUser);
 app.route('/user/:id').delete(userController.deleteUser);
-app.route('/user/:id').put(userController.updateUser);
+app.route('/user').put(userController.updateUser);
+
+app.route('/login').post(userController.loginUser);
+
 
 app.listen(8080, () => console.log("web server ring @ http://127.0.0.1:8080"))
