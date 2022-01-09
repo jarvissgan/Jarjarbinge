@@ -1,6 +1,7 @@
 "use strict";
 
 var db = require('../db-connections');
+
 class UserDB{
     getAllUser(callback){
         var sql = "SELECT * FROM jarjarbinge.user";
@@ -19,10 +20,17 @@ class UserDB{
         return db.query(sql, [user.getUserPassword(), user.getFirstName(), user.getLastName(), user.getUserAddress(), user.getUserNumber(), user.getUserEmail(), user.getUserBookmark(),user.getUserPicture(), user.getUserName()], callback);
     }
 
+    //gets specific user
+    getUser(username, callback){
+        var sql = "SELECT DISTINCT username, firstName, lastName, address, number, email, userPicture from user where username = ?";
+        return db.query(sql, [username], callback);
+    }
+
     //checks if user exists
     loginUser(username, callback){
         var sql = "SELECT password FROM jarjarbinge.user WHERE username = ?";
         db.query(sql,[username], callback)
     }
+
 }
 module.exports = UserDB;

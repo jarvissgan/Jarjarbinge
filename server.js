@@ -24,6 +24,7 @@ app.route('/user').get(userController.getAllUser);
 app.route('/user').post(userController.addUser);
 app.route('/user/:id').delete(userController.deleteUser);
 app.route('/user').put(userController.updateUser);
+app.route('/user/get').post(userController.getUser);
 
 app.route('/login').post(userController.loginUser);
 
