@@ -4,6 +4,9 @@ var reviewController = require('./controllers/ReviewController');
 var restaurantController = require('./controllers/RestaurantController');
 var userController = require('./controllers/UserController');
 
+const multer  = require("multer");
+const upload = multer({dest: "/public"});
+
 var app = express();
 
 app.use(express.static("./public"));
@@ -22,6 +25,8 @@ app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
 app.route('/user').post(userController.addUser);
+//app.post("/user", upload.single("userPicture"), userController.addUser);
+
 app.route('/user/:id').delete(userController.deleteUser);
 app.route('/user').put(userController.updateUser);
 app.route('/user/get').post(userController.getUser);

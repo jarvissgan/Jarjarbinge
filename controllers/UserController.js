@@ -2,10 +2,13 @@
 const User = require('../models/User');
 const UserDB = require('../models/UserDB');
 const bcrypt = require('bcrypt');
+const multer  = require("multer");
+const upload = multer({dest: "/public"});
+const Blob = require('node-blob');
 var jwt = require('jsonwebtoken');
 var secret = "verysecretkey"
 var userDB = new UserDB();
-var XMLHttpRequest = require('xhr2');
+
 
 function getAllUser(request, respond){
     userDB.getAllUser(function(error, result){
@@ -41,34 +44,35 @@ function getUser(request, respond){
 };
 
 function addUser(request, respond){
-    //converts images to url, to be converted to blobs lol
-    var image = request.body.blob
-    function imageToURL(url, callback){
-        var XHR = new XMLHttpRequest();
-        XHR.onload = function(){
-            var reader = new FileReader();
-            reader.onloadend = function(){
-                callback(reader.result);
-            }
-            reader.readAsDataURL(XHR.response);
-        };
-        XHR.open('GET', url);
-        XHR.responseType = 'blob';
-        XHR.send();
-    }
-    imageToURL(image, function(dataUrl){
-        console.log('RESULT: ', dataUrl)
-    })
-    
-    // var user = new User(null, request.body.username, request.body.password , request.body.firstName,request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked,request.body.userPicture);
-    
-    // userDB.addUser(user, function(error, result){
-    //     if(error){
-    //         respond.json(error);
-    //     }else{
-    //         respond.json(result);
+    // if(!request.file){
+    //     console.log("no file uploaded");
+    // } else{
+    //     console.log("FILE: ",request.file.filename);
+    // }
+    //console.log(userAttatched)
+    // var reader = global.FileReader;
+    //     reader.onload = function(e){
+    //         //creates blob on file select
+    // console.log(Buffer.from([request.file], "base64"));
+    // var blob = new Blob([new Uint8Array(e.target.result)], {type: request.file.mimetype});
+    // console.log(request.file);
+    // console.log(blob);
+    //         //converts blob to url, and displays on imageBlob
+    //         //var urlCreator = window.URL || window.webkitURL;
+    //         //var imageUrl = urlCreator.createObjectURL(blob);
+    //         //document.querySelector("#imageBlob").src = imageUrl;
+
+    //         console.log("BLOB",blob);
     //     }
-    // })
+    var user = new User(null, request.body.username, request.body.password = bcrypt.hashSync(request.body.password, 10) , request.body.firstName,request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked,request.body.userPicture);
+
+    userDB.addUser(user, function(error, result){
+        if(error){
+            respond.json(error);
+        }else{
+            respond.json(result);
+        }
+    })
 };
 function deleteUser(request, respond){
     var userID = request.params.id;
@@ -127,4 +131,4 @@ function loginUser(request, respond){
     })
 };
 
-module.exports = {getAllUser, addUser, deleteUser, updateUser, loginUser, getUser, };
+module.exports = {getAllUser, addUser, deleteUser, updateUser, loginUser, getUser };

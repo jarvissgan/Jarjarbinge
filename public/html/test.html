@@ -20,13 +20,13 @@
 
                         //creates blob on file select
                         var blob = new Blob([new Uint8Array(e.target.result)], {type: testFileArray.files[0].type});
-                        
+                        console.log(new Uint8Array(e.target.result));
                         //converts blob to url, and displays on imageBlob
                         var urlCreator = window.URL || window.webkitURL;
                         var imageUrl = urlCreator.createObjectURL(blob);
                         document.querySelector("#imageBlob").src = imageUrl;
-
-                        console.log("BLOB",blob)
+ 
+                        console.log("BLOB",blob.arrayBuffer)
                     }
                     //ignore
                     console.log("file",document.getElementById("testFile").files[0])
