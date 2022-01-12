@@ -4,7 +4,6 @@ const UserDB = require('../models/UserDB');
 const bcrypt = require('bcrypt');
 const multer  = require("multer");
 const upload = multer({dest: "/public"});
-const Blob = require('node-blob');
 var jwt = require('jsonwebtoken');
 var secret = "verysecretkey"
 var userDB = new UserDB();
