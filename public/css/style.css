@@ -7,12 +7,29 @@ footer {
     float: right;
     padding-right: 10px;
 }
+/* #btnSubmit{
+    
+} */
+
+#search{
+    position: relative;
+    margin: auto;
+    left: 100px;
+    padding: 20px;
+}
 
 #nav{
     background-color: #353839;
     height: 110px;
 }
 
+#btnCollapse{
+    vertical-align:-17px;
+    margin: 5px;
+    width: 50px;
+    height: auto;
+
+}
 
 #logo{
     margin: 0;
