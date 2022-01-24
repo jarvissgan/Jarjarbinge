@@ -37,5 +37,8 @@ function displayRest(currFilter){
 
     }
     console.log("Restaurant count: ",restCount);
+    message = restCount + " Restaurants total";
+    document.getElementById("summary").textContent = message;
+    document.getElementById("parent").textContent = ""; 
     
 }

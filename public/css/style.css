@@ -39,3 +39,16 @@ footer {
     left: calc((100% - 260.11px) / 2);
     z-index: 100000;
 }
+
+.center{
+    width: 200px;
+    height: 100px;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
