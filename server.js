@@ -1,16 +1,17 @@
 var express = require("express");
 
-var reviewController = require('./controllers/ReviewController');
-var restaurantController = require('./controllers/RestaurantController');
-var userController = require('./controllers/UserController');
-
-const multer  = require("multer");
-const upload = multer({dest: "/public"});
-
 var app = express();
 
 app.use(express.static("./public"));
 app.use(express.json());
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+var reviewController = require('./controllers/ReviewController');
+var restaurantController = require('./controllers/RestaurantController');
+var userController = require('./controllers/UserController');
 
 app.route('/restaurant').get(restaurantController.getAllRestaurant);
 app.route('/restaurant').post(restaurantController.addRestaurant);

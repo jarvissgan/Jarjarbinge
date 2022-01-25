@@ -11,6 +11,10 @@ footer {
     
 } */
 
+body{
+    background-color: grey;
+}
+
 #search{
     position: relative;
     margin: auto;
