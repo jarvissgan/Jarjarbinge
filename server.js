@@ -1,13 +1,12 @@
 var express = require("express");
+const cors = require('cors');
 
 var app = express();
 
 app.use(express.static("./public"));
 app.use(express.json());
-
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded());
+app.use(cors());
 
 var reviewController = require('./controllers/ReviewController');
 var restaurantController = require('./controllers/RestaurantController');
@@ -32,7 +31,7 @@ app.route('/user/:id').delete(userController.deleteUser);
 app.route('/user').put(userController.updateUser);
 app.route('/user/get').post(userController.getUser);
 
-app.route('/login').post(userController.loginUser);
+app.route('/login/:username&:password').get(userController.loginUser);
 
 
 app.listen(8080, () => console.log("web server ring @ http://127.0.0.1:8080"))

@@ -1,8 +1,8 @@
-function getRestaurantData(){
+function getRestaurantData() {
     var req = new XMLHttpRequest();
     req.open('GET', rest_url, true);
 
-    req.onload = function(){
+    req.onload = function () {
         rest_array = JSON.parse(req.responseText);
 
         console.log(rest_array);
@@ -11,34 +11,35 @@ function getRestaurantData(){
     };
     req.send();
 }
-function displayRest(currFilter){
+
+function displayRest(currFilter) {
     var table = document.getElementById("restaurantTable");
     var restCount = 0;
     var message = "";
 
-    table.innerHTML= "";
+    table.innerHTML = "";
     totalRest = rest_array.length;
-    for(var count = 0; count< totalRest; count++){
+    for (var count = 0; count < totalRest; count++) {
         // //if(rest_array[count].cuisine == currFilter){
-            
+
         var thumbnail = rest_array[count].imageBlob;
-        if(thumbnail == null){
+        if (thumbnail == null) {
             thumbnail = "./assets/placeholder.png";
         }
 
-        var title =rest_array[count].name;
+        var title = rest_array[count].name;
         // }
 
-        var cell = '<div class="card col-md-3" ><img class="card-img-top" src="'+ thumbnail + '" alt="Card image cap">\
+        var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
                         <h5 style="padding-left:30px;cursor:pointer" data-toggle="modal" data-target="#movieModal" class="card-title" item="' + count + '" onClick="showMovieDetails(this)">' + title + '</h5></div>\
                     </div>'
         table.insertAdjacentHTML('beforeend', cell);
         restCount++;
 
     }
-    console.log("Restaurant count: ",restCount);
+    console.log("Restaurant count: ", restCount);
     message = restCount + " Restaurants total";
     document.getElementById("summary").textContent = message;
-    document.getElementById("parent").textContent = ""; 
-    
+    document.getElementById("parent").textContent = "";
+
 }

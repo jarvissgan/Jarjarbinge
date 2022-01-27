@@ -2,7 +2,6 @@
 const User = require('../models/User');
 const UserDB = require('../models/UserDB');
 const bcrypt = require('bcrypt');
-var bodyParser = require('body-parser')
 
 var jwt = require('jsonwebtoken');
 var secret = "verysecretkey"
@@ -91,23 +90,28 @@ function updateUser(request, respond) {
 }
 
 function loginUser(request, respond) {
-    var username = request.body.username;
-    var password = request.body.password;
+    var username = request.params.username;
+    console.log('request.params: ', request.params);
+    var password = request.params.password;
+    console.log('request.params username: ', request.params.username);
+
     userDB.loginUser(username, function (error, result) {
+        console.log('result: ', result);
         if (error) {
             respond.json(error);
         } else {
-            console.log(password);
-            console.log(result);
+            // console.log(password);
+            // console.log(result);
 
             const hash = result[0].password;
+            //console.log('hash: ', hash);
             //compares encrypted password with clear text
             // if same, flag == true
-            console.log(hash);
             var flag = bcrypt.compareSync(password, hash);
             if (flag) {
                 //creates token if password is valid
                 var token = jwt.sign(username, secret);
+                console.log('token: ', token);
                 respond.json({
                     result: token
                 });

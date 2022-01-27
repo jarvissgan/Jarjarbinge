@@ -30,6 +30,16 @@ class UserDB {
     loginUser(username, callback) {
         var sql = "SELECT password FROM jarjarbinge.user WHERE username = ?";
         db.query(sql, [username], callback)
+        // db.query(sql, [username], (error, result)=>{
+        //     if(error){
+        //         callback(JSON.stringify(error));
+        //         console.log('error: ', error);
+        //     }else{
+        //         callback(result);
+        //         console.log('result: ', result);
+        //     }
+            
+        // });
     }
 
 }
