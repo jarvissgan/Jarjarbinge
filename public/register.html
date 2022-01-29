@@ -1,15 +1,74 @@
+<!DOCTYPE html>
 <html>
-    <script src="/public/js/account.js"></script>
-    <body>
-        <input type="text">
-        
-        <form action="">
-            <input type="file" id="testFile" name="testFile1">
-            <input type="submit" onclick="">
-          </form>
 
-          <div style="background-color:black; text-align:center; padding: 5px;">
-            <img id="imageBlob"/>
-          </div>
-    </body>
+<head>
+  <title>JarJarBinge</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div w3-include-html="top-navigation.html"></div>
+
+  <script src="js/register.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <form class="table" id="registerUser">
+    <div class="tableRow">
+      <label class="tableCell">Username: </label>
+      <input class="tableCell" type="text" id="registerUsername">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Password: </label>
+      <input class="tableCell" type="password" id="registerPassword">
+    </div>
+    <!-- <div class="tableRow">
+      <label class="tableCell">Re-enter Password: </label>
+      <input class="tableCell" type="password" id="registerRePassword">
+    </div> -->
+    <div class="tableRow">
+      <label class="tableCell">First Name: </label>
+      <input class="tableCell" type="text" id="registerFirstName">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Last Name: </label>
+      <input class="tableCell" type="text" id="registerLastName">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Address: </label>
+      <input class="tableCell" type="text" id="registerAddress">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Phone Number: </label>
+      <input class="tableCell" type="text" id="registerPhone">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Email: </label>
+      <input class="tableCell" type="email" id="registerEmail">
+    </div>
+    <div class="tableRow">
+      <label class="tableCell">Profile Picture: </label>
+      <input class="tableCell" type="file" id="userPicture" name="userPicture" accept="image/*">
+      <input class="tableCell" type="button" onclick="registerUser()" id="registerSubmit">
+    </div>
+  </form>
+
+  <div>
+    <img id="imageBlob" width="500px" height="500px" />
+  </div>
+
+  <script>
+    document.getElementById("userPicture").addEventListener("change", fileConvert(), true);
+  </script>
+  <script src="https://w3schools.com/lib/w3.js"></script>
+  <script>
+    w3.includeHTML();
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/86ec7c1143.js"></script>
+</body>
+
 </html>

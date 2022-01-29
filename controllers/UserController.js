@@ -42,8 +42,12 @@ function getUser(request, respond) {
 };
 
 function addUser(request, respond) {
-    var user = new User(null, request.body.username, request.body.password = bcrypt.hashSync(request.body.password, 10), request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, request.body.userPicture);
+    console.log(JSON.stringify(request.files[0]));
+    console.log('password: ', request.body.password);
+    var password = bcrypt.hashSync(request.body.password, 10);
 
+    var user = new User(null, request.body.username, password, request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, JSON.stringify(request.files[0]));
+    
     userDB.addUser(user, function (error, result) {
         if (error) {
             respond.json(error);
@@ -90,38 +94,33 @@ function updateUser(request, respond) {
 }
 
 function loginUser(request, respond) {
+    //gets username and password from url
     var username = request.params.username;
-    console.log('request.params: ', request.params);
     var password = request.params.password;
-    console.log('request.params username: ', request.params.username);
 
     userDB.loginUser(username, function (error, result) {
-        console.log('result: ', result);
-        if (error) {
-            respond.json(error);
-        } else {
-            // console.log(password);
-            // console.log(result);
-
-            const hash = result[0].password;
-            //console.log('hash: ', hash);
-            //compares encrypted password with clear text
-            // if same, flag == true
-            var flag = bcrypt.compareSync(password, hash);
-            if (flag) {
-                //creates token if password is valid
-                var token = jwt.sign(username, secret);
-                console.log('token: ', token);
-                respond.json({
-                    result: token
-                });
+        //catches invalid accounts, if invalid respond.json == invalid
+        try {
+            if (error) {
+                respond.json(error);
             } else {
-                respond.json({
-                    result: "invalid"
-                });
-
+                const hash = result[0].password;
+                //compares encrypted password with clear text
+                // if same, flag == true
+                var flag = bcrypt.compareSync(password, hash);
+                if (flag) {
+                    var token = jwt.sign(username, secret);
+                    respond.json({
+                        result: token
+                    });
+                }
             }
+        } catch {
+            respond.json({
+                result: "invalid"
+            });
         }
+
     })
 };
 

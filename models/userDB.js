@@ -29,14 +29,14 @@ class UserDB {
     //checks if user exists
     loginUser(username, callback) {
         var sql = "SELECT password FROM jarjarbinge.user WHERE username = ?";
-        db.query(sql, [username], callback)
+        db.query(sql, [username], callback);
         // db.query(sql, [username], (error, result)=>{
         //     if(error){
         //         callback(JSON.stringify(error));
         //         console.log('error: ', error);
         //     }else{
-        //         callback(result);
-        //         console.log('result: ', result);
+        //         callback(JSON.stringify(result));
+        //         console.log('result userDB: ', result);
         //     }
             
         // });

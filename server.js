@@ -1,11 +1,13 @@
 var express = require("express");
 const cors = require('cors');
+var multer = require('multer')
+const upload = multer({ dest: '/assets' })
 
 var app = express();
 
 app.use(express.static("./public"));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 var reviewController = require('./controllers/ReviewController');
@@ -24,8 +26,8 @@ app.route('/review/:id').delete(reviewController.deleteReview);
 app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
-app.route('/user').post(userController.addUser);
-//app.post("/user", upload.single("userPicture"), userController.addUser);
+//app.route('/user').post(userController.addUser);
+app.post("/user", upload.any(), userController.addUser);
 
 app.route('/user/:id').delete(userController.deleteUser);
 app.route('/user').put(userController.updateUser);
