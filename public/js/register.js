@@ -2,7 +2,7 @@ var profileBlob = null;
 
 async function registerUser() {
     let formData = new FormData(document.getElementById('registerUser'))
-
+    //TODO investigate why its uploading 2 blobs in the payload instead of 1
     formData.append('username', document.getElementById("registerUsername").value);
     formData.append('password', document.getElementById("registerPassword").value);
     formData.append('firstName', document.getElementById("registerFirstName").value);
@@ -17,10 +17,11 @@ async function registerUser() {
         method: 'POST',
         body: formData
     });
-    let result = await response.text();
-    alert(result);
+    let result = await response.text().then(userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
+    //alert(result);
     console.log('result: ', result);
     
+    //GRAVEYARD:
 
     // document.getElementById('registerUser').onsubmit = async (e) => {
     //     e.preventDefault();

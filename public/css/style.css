@@ -1,10 +1,16 @@
+/* @font-face {
+    font-family: 'Readex Pro';
+    src: url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300&display=swap');
+} */
+
 footer {
     background: #aaa;
     color: white;
 }
 
 body {
-    background-color: grey;
+    /* background-color: grey; */
+    height: 100%;
 }
 
 .table{
@@ -20,11 +26,15 @@ body {
     display: table-cell;
 }
 
-
+.padLeft{
+    /* font-family: 'Readex Pro', sans-serif; */
+    font-size: large;
+    padding-left: 30px;
+}
 
 .edit {
     float: right;
-    padding-right: 10px;
+    padding-right: 0px auto;
 }
 
 .center-block {
@@ -52,11 +62,18 @@ body {
     margin: auto;
 }
 
+.carousel-inner{
+    text-align: center;
+    
+}
+
 #search {
     position: relative;
     margin: auto;
-    left: 100px;
-    padding: 20px;
+    text-align: left;
+    padding-left: 90px;
+    padding-top: 50px;
+
 }
 
 #nav {

@@ -19,7 +19,7 @@ app.route('/restaurant').post(restaurantController.addRestaurant);
 app.route('/restaurant/:id').delete(restaurantController.deleteRestaurant);
 app.route('/restaurant/:id').put(restaurantController.updateRestaurant);
 
-
+//TODO: add get review by id
 app.route('/review').get(reviewController.getAllReview);
 app.route('/review').post(reviewController.addReview);
 app.route('/review/:id').delete(reviewController.deleteReview);
@@ -27,6 +27,8 @@ app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
 //app.route('/user').post(userController.addUser);
+
+//using multer to upload files
 app.post("/user", upload.any(), userController.addUser);
 
 app.route('/user/:id').delete(userController.deleteUser);

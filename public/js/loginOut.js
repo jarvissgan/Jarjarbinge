@@ -1,16 +1,11 @@
-//const { default: axios } = require("axios");
-//const { response } = require("express");
-
-function userLogin() {
+//userLogin(username, password) so that i can login without typing out another query in other js files :D
+function userLogin(username, password) {
     console.log(login_url);
-    //gets username and password from textboxes
-    var username = document.getElementById("inputUsername").value;
-    //sets variable to _ to prevent errors
+    // //sets variable to _ to prevent errors
     if(username == ''){
         username = '_'
     }
-    var password = document.getElementById("inputPassword").value;
-    //sets variable to _ to prevent errors
+    // //sets variable to _ to prevent errors
     if(password == ''){
         password = '_'
     }
@@ -26,12 +21,21 @@ function userLogin() {
         token = JSON.parse(token).result;
         //adds token to session storage if it is valid
         if(token != 'invalid'){
+            //adds token to session storage if token is returned
             sessionStorage.setItem("token", token);
             console.log('sessionStorage: ', sessionStorage);
+
+            //changes page to last visited page
+            window.location.replace(document.referrer)
         }
-        console.log('token: ', token);
+        else{
+            console.log('token: ', token);
+            alert("Entered wrong username or password!")
+        }
     };
     loginUser.send();
-    // var fuck = axios.create({baseURL: 'http://127.0.0.1:8080'});
-    // fuck.get('/login/Ryuuko&1234').then(response=>console.log(response.data))
+}
+function logoutUser(){
+    sessionStorage.removeItem("token");
+    window.location.replace('index.html')
 }
