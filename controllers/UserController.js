@@ -19,7 +19,7 @@ function getAllUser(request, respond) {
 
 //gets specific user
 function getUser(request, respond) {
-    var token = request.body.token
+    var token = request.params.token;
 
     try {
         //checks if token is valid
@@ -30,7 +30,7 @@ function getUser(request, respond) {
             if (error) {
                 respond.json(error);
             } else {
-                respond.json(result);
+                respond.json(result[0]);
             }
         });
     } catch (error) {

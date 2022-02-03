@@ -22,7 +22,7 @@ class UserDB {
 
     //gets specific user
     getUser(username, callback) {
-        var sql = "SELECT DISTINCT username, firstName, lastName, address, number, email, userPicture from user where username = ?";
+        var sql = "SELECT DISTINCT userID, username, firstName, lastName, address, number, email, userPicture from user where username = ?";
         return db.query(sql, [username], callback);
     }
 

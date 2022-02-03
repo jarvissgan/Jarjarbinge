@@ -6,6 +6,9 @@ function getReviewData() {
         review_array = JSON.parse(req.responseText);
     }
     req.send();
+    window.onload = function(){
+        displayReviews();
+    } 
 }
 
 function displayReviews() {
@@ -18,32 +21,48 @@ function displayReviews() {
     count = sessionStorage.getItem("count");
     document.getElementById("reviewRestaurant").innerHTML = "Review for " + rest_array[count].name;
 
-    for (var i = 0; review_array.length; i++) {
+    for (var i = 0; i<review_array.length; i++) {
         if (review_array[i].restaurantID === rest_array[count].restaurantID) {
+            
             console.log(review_array[i]);
             document.getElementById("emptyReview").innerHTML = "";
             selectedRestaurantID = rest_array[count].restaurantID;
             star = "";
-            var html = '<div id="reviewBody" class="col-md-6 text-right" style="max-width: 95%; margin: auto;">\
+            var html = '<div id="reviewBody" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;cursor:pointer" id="reviewName">'+ review_array[i].title + '</label>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewBy">By:'+ review_array[i].userID+", " + review_array[i].submissionDate+'</label>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewContent">'+ review_array[i].review +'</label>\
+            <label style="padding-left:15px;cursor:pointer" id="reviewName">' + review_array[i].title + '</label>\
+            <label style="padding-left:15px;cursor:pointer" id="reviewBy">By:' + review_array[i].userID + ", " + review_array[i].submissionDate + '</label>\
+            <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + review_array[i].review + '</label>\
             </div>\
             </div>';
             document.getElementById("reviewBody").insertAdjacentHTML('beforeend', html);
         }
-        
+
     }
 
 
 }
 
 function addReview() {
-    var title = document.getElementById("reviewTitle").value;
-    rating = rating;
-    var review = document.getElementById("reviewText").value;
-    var review = new Object();
+    var req = new XMLHttpRequest();
+    req.open('GET', "http://127.0.0.1:8080/user/get/" + sessionStorage.getItem("token"), true);
+    req.onload = function () {
+        var userDetails = JSON.parse(req.responseText);
+        var reviewObject = new Object();
+
+        reviewObject.restaurantID = rest_array[count].restaurantID;
+        console.log('reviewObject: ', reviewObject);
+        reviewObject.userID = userDetails.userID;
+        reviewObject.title = document.getElementById("reviewTitle").value;
+        reviewObject.review = document.getElementById("reviewText").value;
+        reviewObject.rating = rating;
+    }
+    req.send();
+
+
+
+
+
 
 }
 
