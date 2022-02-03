@@ -19,9 +19,10 @@ app.route('/restaurant').post(restaurantController.addRestaurant);
 app.route('/restaurant/:id').delete(restaurantController.deleteRestaurant);
 app.route('/restaurant/:id').put(restaurantController.updateRestaurant);
 
-//TODO: add get review by id
 app.route('/review').get(reviewController.getAllReview);
 app.route('/review').post(reviewController.addReview);
+app.route('/review/:reviewID').get(reviewController.searchNameByID);
+
 app.route('/review/:id').delete(reviewController.deleteReview);
 app.route('/review/:id').put(reviewController.updateReview);
 

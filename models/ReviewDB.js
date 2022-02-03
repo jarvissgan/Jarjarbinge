@@ -18,5 +18,9 @@ class ReviewDB{
         var sql = "UPDATE review SET title = ?, review = ?, rating = ?, submissionDate = ? WHERE reviewID = ?";
         return db.query(sql, [review.getTitle(), review.getReview(), review.getRating(), review.getSubmissionDate(), review.getReviewID()], callback);
     }
+    searchNameByID(reviewID, callback){
+        var sql = "SELECT username FROM jarjarbinge.user WHERE userID = ?";
+        return db.query(sql, [reviewID] ,callback)
+    }
 }
 module.exports = ReviewDB;

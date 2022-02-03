@@ -47,7 +47,7 @@ function addUser(request, respond) {
     var password = bcrypt.hashSync(request.body.password, 10);
 
     var user = new User(null, request.body.username, password, request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, JSON.stringify(request.files[0]));
-    
+
     userDB.addUser(user, function (error, result) {
         if (error) {
             respond.json(error);

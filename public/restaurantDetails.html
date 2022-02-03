@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body onload="loadRestaurantOnPage(), getReviewData()">
+<body onload="loadRestaurantOnPage(), displayReviews()">
     <div w3-include-html="top-navigation.html"></div>
     <div class="row">
         <div id="restaurantCarou" class="carousel slide, col-5" data-ride="carousel">
@@ -66,7 +66,9 @@
             <div class="card card-text" style="word-wrap: break-word;">
                 <label style="padding-left:15px;cursor:pointer" id="emptyReview"></label>
             </div>
+            
         </div>
+        
 
         <div class="col-md-6 text-right padLeft" id="reviewCard">
             <div class="card card-text" style="word-wrap: break-word;">
@@ -88,7 +90,7 @@
                 <label> Current word count: <label id="reviewCount" style="display: inline;">0</label></label>
                 <label> Remaining words: <label id="reviewRemainingCount" style="display: inline;">150</label></label>
 
-                <input type="submit" id="reviewSubmit" onclick="addReview() ">
+                <input type="submit" id="reviewSubmit" onclick="addReview()">
             </div>
         </div>
     </div>
