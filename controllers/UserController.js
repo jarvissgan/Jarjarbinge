@@ -42,11 +42,9 @@ function getUser(request, respond) {
 };
 
 function addUser(request, respond) {
-    console.log(JSON.stringify(request.files[0]));
-    console.log('password: ', request.body.password);
     var password = bcrypt.hashSync(request.body.password, 10);
 
-    var user = new User(null, request.body.username, password, request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, JSON.stringify(request.files[0]));
+    var user = new User(null, request.body.username, password, request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, request.body.userPicture);
 
     userDB.addUser(user, function (error, result) {
         if (error) {
@@ -70,18 +68,17 @@ function deleteUser(request, respond) {
 
 function updateUser(request, respond) {
     var token = request.body.token;
+
     var user = new User(parseInt(request.params.id), request.body.username, request.body.password = bcrypt.hashSync(request.body.password, 10), request.body.firstName, request.body.lastName, request.body.address, request.body.number, request.body.email, request.body.bookmarked, request.body.userPicture);
     try {
         //checks if token is valid
         var decoded = jwt.verify(token, secret);
-
         //if token is valid, sql will update user details
-
         userDB.updateUser(user, function (error, result) {
             if (error) {
                 respond.json(error);
             } else {
-                respond.json(result);
+                respond.json(result[0]);
             }
         });
     } catch (error) {
@@ -113,6 +110,8 @@ function loginUser(request, respond) {
                     respond.json({
                         result: token
                     });
+                }else{
+                    throw "invalid credentials, please try again"
                 }
             }
         } catch {

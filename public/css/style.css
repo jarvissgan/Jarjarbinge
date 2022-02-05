@@ -11,6 +11,8 @@ footer {
 body {
     /* background-color: grey; */
     height: 100%;
+    font-family: monospace;
+
 }
 
 .table {
@@ -28,8 +30,8 @@ body {
 
 .padLeft {
     /* font-family: 'Readex Pro', sans-serif; */
-    font-size: large;
-    padding-left: 30px;
+    font-size: x-large;
+    padding-left: 100px;
 }
 
 .edit {

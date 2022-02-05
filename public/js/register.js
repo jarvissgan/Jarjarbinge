@@ -1,8 +1,7 @@
 var profileBlob = null;
 
 async function registerUser() {
-    let formData = new FormData(document.getElementById('registerUser'))
-    //TODO investigate why its uploading 2 blobs in the payload instead of 1
+    let formData = new FormData();
     formData.append('username', document.getElementById("registerUsername").value);
     formData.append('password', document.getElementById("registerPassword").value);
     formData.append('firstName', document.getElementById("registerFirstName").value);
@@ -10,16 +9,15 @@ async function registerUser() {
     formData.append('address', document.getElementById("registerAddress").value);
     formData.append('number', document.getElementById("registerPhone").value);
     formData.append('email', document.getElementById("registerEmail").value);
-    formData.append('userPicture', profileBlob, 'userPicture');
+    formData.append('userPicture', document.querySelector("#imageBlob").src);
     
-    console.log('formData: ', formData.get('userPicture'));
+    // console.log('formData: ', formData.get('userPicture'));
     let response = await fetch('http://127.0.0.1:8080/user', {
         method: 'POST',
         body: formData
     });
     let result = await response.text().then(userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
     //alert(result);
-    console.log('result: ', result);
     
     //GRAVEYARD:
 
@@ -60,24 +58,39 @@ function fileConvert() {
     var uploadArray = document.getElementById("userPicture");
     uploadArray.addEventListener("change", function () {
         console.log("ARRAY:", uploadArray.files);
+        var selectedFile = uploadArray.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
             //creates blob on file select
-            profileBlob = new Blob([new Uint8Array(e.target.result)], {
-                //type: uploadArray.files[0].type
-                type: "application/json"
-            });
-            console.log('profileBlob: ', profileBlob);
-            console.log(new Uint8Array(e.target.result));
-            //converts blob to url, and displays on imageBlob
-            var urlCreator = window.URL || window.webkitURL;
-            var imageUrl = urlCreator.createObjectURL(profileBlob);
-            document.querySelector("#imageBlob").src = imageUrl;
-
-            console.log("BLOB", profileBlob.arrayBuffer)
+            selectedFile.src = e.target.result;
+            var srcData = e.target.result;
+            document.querySelector("#imageBlob").src = srcData;
         }
-        //ignore
-        console.log("file", document.getElementById("userPicture").files[0])
-        console.log(reader.readAsArrayBuffer(document.getElementById("userPicture").files[0]));
+        reader.readAsDataURL(selectedFile);
     });
+
 }
+// function fileConvert() {
+//     var uploadArray = document.getElementById("userPicture");
+//     uploadArray.addEventListener("change", function () {
+//         console.log("ARRAY:", uploadArray.files);
+//         var reader = new FileReader();
+//         reader.onload = function (e) {
+//             //creates blob on file select
+//             profileBlob = new Blob([new Uint8Array(e.target.result)], {
+//                 type: uploadArray.files[0].type
+//             });
+//             console.log('profileBlob: ', profileBlob);
+//             console.log(new Uint8Array(e.target.result));
+//             //converts blob to url, and displays on imageBlob
+//             var urlCreator = window.URL || window.webkitURL;
+//             var imageUrl = urlCreator.createObjectURL(profileBlob);
+//             document.querySelector("#imageBlob").src = imageUrl;
+
+//             console.log("BLOB", profileBlob.arrayBuffer)
+//         }
+//         //ignore
+//         console.log("file", document.getElementById("userPicture").files[0])
+//         console.log(reader.readAsArrayBuffer(document.getElementById("userPicture").files[0]));
+//     });
+// }

@@ -3,15 +3,15 @@ function getReviewData() {
     var req = new XMLHttpRequest();
 
     return new Promise((resolve, reject) => {
-        setTimeout(function(){
-            req.onreadystatechange = (e) =>{
-                if(req.readyState !== 4){
+        setTimeout(function () {
+            req.onreadystatechange = (e) => {
+                if (req.readyState !== 4) {
                     return;
                 }
-                if(req.status ===200){
+                if (req.status === 200) {
                     // console.log("success", req.responseText);
                     resolve(JSON.parse(req.responseText));
-                }else{
+                } else {
                     console.warm('request_error');
                 }
             };
@@ -19,14 +19,6 @@ function getReviewData() {
             req.send();
         }, 0)
     });
-
-    req.open('GET', "http://127.0.0.1:8080/review", true);
-    req.onload = function () {
-        review_array = JSON.parse(req.responseText);
-        displayReviews(review_array)
-    }
-    req.send();
-
 }
 
 async function displayReviews() {
@@ -54,6 +46,13 @@ async function displayReviews() {
             <div class="card card-text" style="word-wrap: break-word;">\
             <label style="padding-left:15px;cursor:pointer" id="reviewName">' + review_array[i].title + '</label>\
             <label style="padding-left:15px;cursor:pointer" id="reviewBy">By: ' + username.username + ", " + submissionDate + '</label>\
+            <div>\
+            <img src="assets/Icon.png" class="jar" value="1" style="cursor:pointer">\
+                    <img src="assets/Icon.png" class="jar" value="2" style="cursor:pointer">\
+                    <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer">\
+                    <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer">\
+                    <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer">\
+            </div>\
             <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + review_array[i].review + '</label>\
             </div>\
             </div>';
@@ -65,48 +64,20 @@ async function displayReviews() {
 
 }
 
-function getUserDetails() {
+
+function getUserByID(reviewID) {
     var req = new XMLHttpRequest();
 
     return new Promise((resolve, reject) => {
-        setTimeout(function(){
-            req.onreadystatechange = (e) =>{
-                if(req.readyState !== 4){
+        setTimeout(function () {
+            req.onreadystatechange = (e) => {
+                if (req.readyState !== 4) {
                     return;
                 }
-                if(req.status ===200){
+                if (req.status === 200) {
                     // console.log("success", req.responseText);
                     resolve(JSON.parse(req.responseText));
-                }else{
-                    console.warm('request_error');
-                }
-            };
-            req.open('GET', "http://127.0.0.1:8080/user/get/" + sessionStorage.getItem("token"));
-            req.send();
-        }, 1000)
-    });
-
-    // req.open('GET', "http://127.0.0.1:8080/user/get/" + sessionStorage.getItem("token"), true);
-    // req.onload = function () {
-    //     var userDetails = JSON.parse(req.responseText);
-    //     sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
-    // }
-    // req.send();
-}
-
-function getUserByID(reviewID){
-    var req = new XMLHttpRequest();
-
-    return new Promise((resolve, reject) => {
-        setTimeout(function(){
-            req.onreadystatechange = (e) =>{
-                if(req.readyState !== 4){
-                    return;
-                }
-                if(req.status ===200){
-                    // console.log("success", req.responseText);
-                    resolve(JSON.parse(req.responseText));
-                }else{
+                } else {
                     console.warm('request_error');
                 }
             };
@@ -119,18 +90,18 @@ function getUserByID(reviewID){
 
 async function addReview() {
     //if token exists
-    if(sessionStorage.getItem("token")){
+    if (sessionStorage.getItem("token")) {
         const userDetails = await getUserDetails();
         // console.log('userDetails: ', userDetails);
         var reviewObject = new Object();
-    
+
         reviewObject.restaurantID = rest_array[sessionStorage.getItem("count")].restaurantID;
         reviewObject.userID = userDetails.userID;
         reviewObject.title = document.getElementById("reviewTitle").value;
         reviewObject.review = document.getElementById("reviewText").value;
         reviewObject.rating = rating;
         // console.log('reviewObject: ', reviewObject);
-    
+
         var req = new XMLHttpRequest();
         req.open('POST', "http://127.0.0.1:8080/review", true);
         req.setRequestHeader("Content-Type", "application/json");
@@ -139,15 +110,15 @@ async function addReview() {
             // console.log('response: ', response);
         }
         req.send(JSON.stringify(reviewObject));
-    
+
         //refreshes reviews to load new comment
         window.location.href = window.location.href;
-    } else{ //if token doesn't exist
+    } else { //if token doesn't exist
         alert("Please log in!");
         document.getElementById("reviewTitle").value = '';
         document.getElementById("reviewText").value = '';
     }
-    
+
 
 }
 

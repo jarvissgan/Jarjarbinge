@@ -1,7 +1,8 @@
 var express = require("express");
 const cors = require('cors');
 var multer = require('multer')
-const upload = multer({ dest: '/assets' })
+multer({ limits: { fieldSize: 2 * 1024 * 1024 }})
+const upload = multer({ dest: '/assets', limits:{ fieldSize: 10000000000 }  }) //um cause i want to upload gif
 
 var app = express();
 
@@ -27,13 +28,16 @@ app.route('/review/:id').delete(reviewController.deleteReview);
 app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
-//app.route('/user').post(userController.addUser);
+// app.route('/user').post(userController.addUser);
 
 //using multer to upload files
 app.post("/user", upload.any(), userController.addUser);
 
 app.route('/user/:id').delete(userController.deleteUser);
-app.route('/user').put(userController.updateUser);
+
+//app.route('/user').put(userController.updateUser);
+app.put("/user", upload.any(), userController.updateUser);
+
 app.route('/user/get/:token').get(userController.getUser);
 
 app.route('/login/:username&:password').get(userController.loginUser);
