@@ -18,8 +18,7 @@ function getAllRestaurant(request, respond){
 }
 function addRestaurant(request, respond){
     var token = request.body.token;
-    console.log('token: ', token);
-    console.log(request.body.image);
+
     try{
         var decoded = jwt.verify(token, secret);
         console.log('decoded: ', decoded);

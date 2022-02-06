@@ -11,88 +11,77 @@
 
 <body onload="loadRestaurantOnPage(), displayReviews()">
     <div w3-include-html="top-navigation.html"></div>
-    <div class="row">
-        <div id="restaurantCarou" class="carousel slide, col-5" data-ride="carousel">
-            <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
-            </ul>
-            <div class="carousel-inner" role="listbox">
-                <div class="carousel-item active">
-                    <img src="/assets/placeholder.png" id="carouselFirst">
-                </div>
-                <div class="carousel-item">
-                    <img src="/assets/Logo.png" id="carouselSecond">
-                </div>
-                <div class="carousel-item">
-                    <img src="/assets/placeholder.png" id="carouselThird">
-                </div>
-            </div>
 
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#demo" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
+    <div class="container">
+    <input type="button" id="buttonBack" value="Back to main page" onclick="window.location.replace('index.html')">
+
+        <div class="row">
+            <img class="col-4" id="restaurantImage" style="margin-left: 30px; margin-top: 15px;" />
+    
+            <div id="restaurantDetails" class="col">
+                <div>
+                    Name of Restaurant:
+                    <label id="restaurantName" style="font-size: x-large;">never gonna give you up</label>
+                </div>
+                <div>
+                    <br>
+
+                    Description:
+                    <label id="restaurantDescription">never gonna give you up</label>
+                </div>
+                <div>
+                    <br>
+                    Address:
+                    <label id="restaurantAddress">never gonna give you up</label>
+                </div>
+                <div>
+                    Category:
+                    <label id="restaurantCuisine">never gonna give you up</label>
+                </div>
+                <div>
+                    Contact Information:
+                    <a id="restaurantNumber"></a>,
+                    <a id="restaurantEmail" >aaaa</a>
+                </div>
+                <!-- TODO: price jars
+                <div>
+                    <label id="restaurantDescription">never gonna give you up</label>
+                </div> -->
+            </div>
         </div>
-        <div id="restaurantDetails" class="col padLeft">
-            <div>
-                <label id="restaurantName" style="font-size: x-large;">never gonna give you up</label>
-            </div>
-            <div>
-                <label id="restaurantDescription">never gonna give you up</label>
-            </div>
-            <div>
-                <label id="restaurantAddress">never gonna give you up</label>
-            </div>
-            <div>
-                <label id="restaurantCuisine">never gonna give you up</label>
-            </div>
-            <div>
-                <!-- TODO: GOOGLE MAPS API -->
-                GOOGLE MAPS API SHTI HERE
-            </div>
-            <!-- TODO: price jars
-            <div>
-                <label id="restaurantDescription">never gonna give you up</label>
-            </div> -->
-        </div>
-    </div>
-    <div class="row">
-        <div id="reviewBody" class="col-md-6 text-right" style="max-width: 95%; margin: auto;">
-            <label style="padding-left:15px;cursor:pointer" id="reviewRestaurant"></label>
-            <div class="card card-text" style="word-wrap: break-word;">
-                <label style="padding-left:15px;cursor:pointer" id="emptyReview"></label>
-            </div>
-
-        </div>
-
-
-        <div class="col-md-6 text-right padLeft" id="reviewCard">
-            <div class="card card-text" style="word-wrap: break-word;">
-                <label>Type your review here:</label>
-
-                Review Title:
-                <input type="text" id="reviewTitle" placeholder="Type your title here">
-                Rating:
-                <div id="reviewRatings">
-                    <img src="assets/Icon.png" class="jar" value='1' style="cursor:pointer" onmousedown="rateIt(this)">
-                    <img src="assets/Icon.png" class="jar" value='2' style="cursor:pointer" onmousedown="rateIt(this)">
-                    <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer" onmousedown="rateIt(this)">
-                    <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer" onmousedown="rateIt(this)">
-                    <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer" onmousedown="rateIt(this)">
+        <div class="row">
+            <div id="reviewBody" class="col-md-6 text-right" style="max-width: 95%; margin: auto;">
+                <label style="padding-left:15px;cursor:pointer" id="reviewRestaurant"></label>
+                <div class="card card-text" style="word-wrap: break-word;">
+                    <label style="padding-left:15px;cursor:pointer" id="emptyReview"></label>
                 </div>
-                Review:
-                <textarea id="reviewText" rows="8" cols="100%" placeholder="Type your review here"></textarea>
-                <label> Current word count: <label id="reviewCount" style="display: inline;">0</label></label>
-                <label> Remaining words: <label id="reviewRemainingCount" style="display: inline;">150</label></label>
-
-                <input type="submit" id="reviewSubmit" onclick="addReview()">
+    
+            </div>
+    
+    
+            <div class="col-md-6 text-right padLeft" id="reviewCard">
+                <div class="card card-text" style="word-wrap: break-word;">
+                    <label>Type your review here:</label>
+    
+                    Review Title:
+                    <input type="text" id="reviewTitle" placeholder="Type your title here">
+                    Rating:
+                    <div id="reviewRatings">
+                        <img src="assets/Icon.png" class="jar" value='1' style="cursor:pointer" onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value='2' style="cursor:pointer" onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer" onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer" onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer" onmousedown="rateIt(this)">
+                    </div>
+                    Review:
+                    <textarea id="reviewText" rows="8" cols="100%" placeholder="Type your review here"></textarea>
+    
+                    <input type="submit" id="reviewSubmit" onclick="addReview()">
+                </div>
             </div>
         </div>
     </div>
+    
     <script src="https://w3schools.com/lib/w3.js"></script>
     <script>
         w3.includeHTML();

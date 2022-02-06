@@ -2,23 +2,31 @@ var profileBlob = null;
 
 async function registerUser() {
     let formData = new FormData();
-    formData.append('username', document.getElementById("registerUsername").value);
-    formData.append('password', document.getElementById("registerPassword").value);
-    formData.append('firstName', document.getElementById("registerFirstName").value);
-    formData.append('lastName', document.getElementById("registerLastName").value);
-    formData.append('address', document.getElementById("registerAddress").value);
-    formData.append('number', document.getElementById("registerPhone").value);
-    formData.append('email', document.getElementById("registerEmail").value);
-    formData.append('userPicture', document.querySelector("#imageBlob").src);
-    
-    // console.log('formData: ', formData.get('userPicture'));
-    let response = await fetch('http://127.0.0.1:8080/user', {
-        method: 'POST',
-        body: formData
-    });
-    let result = await response.text().then(userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
+    try {
+        if (document.getElementById("registerPassword").value == document.getElementById("registerRePassword").value) {
+            formData.append('username', document.getElementById("registerUsername").value);
+            formData.append('password', document.getElementById("registerPassword").value);
+            formData.append('firstName', document.getElementById("registerFirstName").value);
+            formData.append('lastName', document.getElementById("registerLastName").value);
+            formData.append('address', document.getElementById("registerAddress").value);
+            formData.append('number', document.getElementById("registerPhone").value);
+            formData.append('email', document.getElementById("registerEmail").value);
+            formData.append('userPicture', document.querySelector("#imageBlob").src);
+
+            // console.log('formData: ', formData.get('userPicture'));
+            let response = await fetch('http://127.0.0.1:8080/user', {
+                method: 'POST',
+                body: formData
+            });
+            let result = await response.text().then(alert("logged in!"), userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
+        }
+    } catch (error) {
+        window.location.href = window.location.href
+        alert(error);
+    }
+
     //alert(result);
-    
+
     //GRAVEYARD:
 
     // document.getElementById('registerUser').onsubmit = async (e) => {

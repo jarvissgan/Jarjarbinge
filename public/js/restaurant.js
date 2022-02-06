@@ -19,12 +19,13 @@ function displayRest(currFilter) {
 
     //table.innerHTML = "";
     totalRest = rest_array.length;
+    restaurantTable.innerHTML = "";
 
     for (var count = 0; count < totalRest; count++) {
         // //if(rest_array[count].cuisine == currFilter){
 
         var thumbnail = rest_array[count].image;
-        console.log('thumbnail: ', thumbnail);
+        // console.log('thumbnail: ', thumbnail);
         if (thumbnail == null) {
             thumbnail = "./assets/placeholder.png";
         }
@@ -62,11 +63,15 @@ function loadRestaurantOnPage() {
 
     function onPageload() {
         console.log('document.getElementById("restaurantName"): ', document.getElementById("restaurantName"));
-
+        document.getElementById("restaurantImage").src = rest_array[count].image;
         document.getElementById("restaurantName").textContent = rest_array[count].name;
         document.getElementById("restaurantDescription").textContent = rest_array[count].description;
         document.getElementById("restaurantAddress").textContent = rest_array[count].address;
         document.getElementById("restaurantCuisine").textContent = rest_array[count].cuisine;
+        document.getElementById("restaurantNumber").textContent = rest_array[count].number;
+        document.getElementById("restaurantNumber").setAttribute("href", "callto:"+rest_array[count].number)
+        document.getElementById("restaurantEmail").textContent = rest_array[count].email;
+        document.getElementById("restaurantEmail").setAttribute("href", "mailto:"+rest_array[count].email);
     }
 }
 
@@ -89,7 +94,7 @@ async function addNewRestaurant() {
                 body: formData
             });
             console.log('formData: ', formData);
-            let result = await response.text().then(alert(),window.location.replace("index.html"));
+            let result = await response.text().then(alert(), window.location.replace("index.html"));
 
         } else {
             throw "invalid login, try again";
@@ -99,6 +104,7 @@ async function addNewRestaurant() {
         alert(error);
     }
 }
+
 function restaurantFileConvert() {
     var uploadArray = document.getElementById("restaurantPicture");
     uploadArray.addEventListener("change", function () {
@@ -115,4 +121,100 @@ function restaurantFileConvert() {
         reader.readAsDataURL(selectedFile);
     });
 
+}
+
+function searchRestaurant() {
+    var table = document.getElementById("restaurantTable");
+    var restCount = 0;
+    var message = "";
+
+    restaurantTable.innerHTML = "";
+    totalRest = rest_array.length;
+    for (var count = 0; count < totalRest; count++) {
+        if (rest_array[count].name.toLowerCase().includes(document.getElementById("searchBar").value.toLowerCase())) {
+            var thumbnail = rest_array[count].image;
+            console.log('thumbnail: ', thumbnail);
+            if (thumbnail == null) {
+                thumbnail = "./assets/placeholder.png";
+            }
+            var title = rest_array[count].name;
+        // }
+            var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
+            <h5 style="padding-left:30px;cursor:pointer" id="' + count + '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
+            </div>'
+            restaurantTable.insertAdjacentHTML('afterbegin', cell);
+            restCount++;
+        }
+    }
+    console.log("restTable", document.getElementById("restaurantTable"));
+    console.log("Restaurant count: ", restCount);
+    message = restCount + " Restaurants total";
+    document.getElementById("summary").textContent = message;
+    document.getElementById("parent").textContent = "";
+}
+
+function filterBy(catergory){
+    catergory = catergory.innerHTML
+    console.log(catergory);
+
+    var table = document.getElementById("restaurantTable");
+    var restCount = 0;
+    var message = "";
+
+    restaurantTable.innerHTML = "";
+    totalRest = rest_array.length;
+    for (var count = 0; count < totalRest; count++) {
+        if (rest_array[count].cuisine.toLowerCase().includes(catergory.toLowerCase())) {
+            var thumbnail = rest_array[count].image;
+            console.log('thumbnail: ', thumbnail);
+            if (thumbnail == null) {
+                thumbnail = "./assets/placeholder.png";
+            }
+            var title = rest_array[count].name;
+        // }
+            var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
+            <h5 style="padding-left:30px;cursor:pointer" id="' + count + '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
+            </div>'
+            restaurantTable.insertAdjacentHTML('afterbegin', cell);
+            restCount++;
+        }
+    }
+    console.log("restTable", document.getElementById("restaurantTable"));
+    console.log("Restaurant count: ", restCount);
+    message = restCount + " Restaurants total";
+    document.getElementById("summary").textContent = message;
+    document.getElementById("parent").textContent = "";
+}
+
+function filterByRating(catergory){
+    catergory = catergory.innerHTML
+    console.log(catergory);
+
+    var table = document.getElementById("restaurantTable");
+    var restCount = 0;
+    var message = "";
+
+    restaurantTable.innerHTML = "";
+    totalRest = rest_array.length;
+    for (var count = 0; count < totalRest; count++) {
+        if (rest_array[count].price.toLowerCase() == catergory.toLowerCase()) {
+            var thumbnail = rest_array[count].image;
+            console.log('thumbnail: ', thumbnail);
+            if (thumbnail == null) {
+                thumbnail = "./assets/placeholder.png";
+            }
+            var title = rest_array[count].name;
+        // }
+            var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
+            <h5 style="padding-left:30px;cursor:pointer" id="' + count + '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
+            </div>'
+            restaurantTable.insertAdjacentHTML('afterbegin', cell);
+            restCount++;
+        }
+    }
+    console.log("restTable", document.getElementById("restaurantTable"));
+    console.log("Restaurant count: ", restCount);
+    message = restCount + " Restaurants total";
+    document.getElementById("summary").textContent = message;
+    document.getElementById("parent").textContent = "";
 }

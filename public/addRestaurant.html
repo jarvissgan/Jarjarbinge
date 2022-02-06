@@ -21,10 +21,11 @@
 
     <div w3-include-html="top-navigation.html"></div>
     <div class="container">
+        <input type="button" value="Return to main page" onclick="window.location.replace('index.html')">
         <div class="row">
-            <img class="col-4" id="restaurantImage" />
+            <img class="col-3" id="restaurantImage" />
             <!-- <form class="table" id="addRestaurantUser"> -->
-            <div class="col-4">
+            <div class="col-5">
                 <label class="col-6">Restaurant Name: </label>
                 <input class="col-6" type="text" id="addRestaurantName" style="width: 100%;">
                 <label class="col-6">Restaurant Description: </label>
@@ -33,9 +34,9 @@
                 <input class="col-6" type="text" id="addRestaurantAddress" style="width: 100%;">
                 <label class="col-6">Price Range: </label>
                 <select class="col-6" type="text" id="addRestaurantPrice" style="width: 100%;">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                    <option value="$">$</option>
+                    <option value="$$">$$</option>
+                    <option value="$$">$$$</option>
                 </select>
                 <label class="col-6">Cuisine: </label>
 
@@ -51,12 +52,11 @@
             </div>
             <div class="col-4">
                 <label class="col-6">Email: </label>
-                <input class="col-6" type="email" id="addRestaurantEmail" style="width: 70%;">
+                <input class="col-6" type="email" id="addRestaurantEmail" style="width: 100%;">
                 <label class="col-6">Restaurant Contact Number: </label>
-                <input class="col-6" type="text" id="addRestaurantNumber" style="width: 70%;">
+                <input class="col-6" type="text" id="addRestaurantNumber" style="width: 100%;">
                 </br>
                 <input class="col-6" type="button" onclick="addNewRestaurant()" id="addRestaurantSubmit" value="Submit">
-                <input class="col-6" type="button" onclick="deleteUser()" id="delUser" value="Delete Account">
             </div>
 
             <div>

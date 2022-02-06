@@ -43,11 +43,14 @@ async function displayReviews() {
 
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;cursor:pointer">' + review_array[i].title + '</label>\
+            <label style="padding-left:15px;">'+ "Title: " + review_array[i].title + '</label>\
+            <label style="padding-left:15px;">Rating: </label>\
             <div class="inline-block" style="padding-left:15px;" id="rating' + i + '"></div>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewBy">By: ' + username.username + ", " + submissionDate + '</label>\
+            <label style="padding-left:15px;" id="reviewBy">By: ' + username.username + ", " + submissionDate + '</label>\
             <div>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + review_array[i].review + '</label>\
+            <br>\
+            <div style="padding-left:15px;">Review:</div>\
+            <label style="padding-left:15px;" id="reviewContent">' + review_array[i].review + '</label>\
             </div>\
             </div>';
             document.getElementById("reviewBody").insertAdjacentHTML('beforeend', html);
@@ -156,15 +159,19 @@ async function updateReview() {
 async function deleteReview() {
     try {
         if (sessionStorage.getItem("token") != "") {
-            var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
-            var count = sessionStorage.getItem("id");
-
-
-            let response = await fetch('http://127.0.0.1:8080/review/' + reviewArray[count].reviewID, {
-                method: 'DELETE',
-            });
-            let result = await response.text().then(alert("Review Deleted!"), window.location.href = window.location.href)
-            console.log('result: ', result);
+            if (confirm('Are you sure you want to delete this review?')) {
+                var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
+                var count = sessionStorage.getItem("id");
+    
+    
+                let response = await fetch('http://127.0.0.1:8080/review/' + reviewArray[count].reviewID, {
+                    method: 'DELETE',
+                });
+                let result = await response.text().then(alert("Review Deleted!"), window.location.href = window.location.href)
+                console.log('result: ', result);
+              } else {
+                // Do nothing!
+              }
 
         } else {
             throw "invalid login!"

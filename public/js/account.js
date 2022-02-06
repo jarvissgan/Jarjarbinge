@@ -17,7 +17,7 @@ function userLogin(username, password) {
                 if (token != 'invalid') {
                     //adds token to session storage if token is returned
                     sessionStorage.setItem("token", token);
-                    console.log('sessionStorage: ', sessionStorage);
+                    // console.log('sessionStorage: ', sessionStorage);
 
                     //changes page to last visited page and refreshes the page
                     window.location.replace("index.html");
@@ -57,7 +57,7 @@ function getUserDetails() {
                     return;
                 }
                 if (req.status === 200) {
-                    console.log("success", req.responseText);
+                    // console.log("success", req.responseText);
                     resolve(JSON.parse(req.responseText));
                 } else {
                     console.warm('request_error');
@@ -65,13 +65,13 @@ function getUserDetails() {
             };
             req.open('GET', "http://127.0.0.1:8080/user/get/" + sessionStorage.getItem("token"));
             req.send();
-        }, 1000)
+        }, 0)
     });
 }
 
 async function accountDetails() {
     var userArray = await getUserDetails()
-    console.log('userArray: ', userArray);
+    // console.log('userArray: ', userArray);
 
     document.getElementById("updateUsername").value = userArray.username;
     document.getElementById("updateFirstName").value = userArray.firstName;
@@ -119,7 +119,7 @@ async function deleteUser() {
     var answer = window.confirm("Are you sure? This cannot be undone.");
     if (answer) {
         userArray = await getUserDetails();
-        console.log('userArray.userID: ', userArray.userID);
+        // console.log('userArray.userID: ', userArray.userID);
         var req = new XMLHttpRequest();
 
         req.open("DELETE", "http://127.0.0.1:8080/user/" + userArray.userID, true);
@@ -154,21 +154,24 @@ async function loadProfile() {
     sessionStorage.setItem("reviewArray", JSON.stringify(reviewArray))
 
     for (var i = 0; i < reviewArray.length; i++) {
-        if(reviewArray[i].userID === userArray.userID){
+        if (reviewArray[i].userID === userArray.userID) {
             document.getElementById("emptyReview").innerHTML = "";
             star = "";
             var submissionDate = new Date(Date.parse(reviewArray[i].submissionDate));
             // console.log('getUserByID(reviewArray[i].userID): ', await getUserByID(reviewArray[i].userID));
             var username = userArray.username;
-            
+
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;cursor:pointer" id="reviewName">' + reviewArray[i].title + '</label>\
-            <div class="inline-block" style="padding-left:15px;" id="rating'+ i +'"></div>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewBy">By: ' + username + ", " + submissionDate + '</label>\
+            <label style="padding-left:15px;">'+ "Title: " + reviewArray[i].title + '</label>\
+            <label style="padding-left:15px;">Rating: </label>\
+            <div class="inline-block" style="padding-left:15px;" id="rating' + i + '"></div>\
+            <label style="padding-left:15px;" id="reviewBy">By: ' + username + ", " + submissionDate + '</label>\
             <div>\
-            <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + reviewArray[i].review + '</label>\
-            <input type="button" id="'+ i +'"value="Edit Review" data-toggle="modal" data-target="#reviewModal" data-dismiss="modal" onclick="populateModal(this.id)">\
+            <br>\
+            <div style="padding-left:15px;">Review:</div>\
+            <label style="padding-left:15px;" id="reviewContent">' + reviewArray[i].review + '</label>\
+            <div><input type="button" id="' + i + '"value="Edit Review" data-toggle="modal" data-target="#reviewModal" data-dismiss="modal" onclick="populateModal(this.id)"></div>\
             </div>\
             </div>';
             document.getElementById("reviewBody").insertAdjacentHTML('beforeend', html);
@@ -176,20 +179,28 @@ async function loadProfile() {
             for (var j = 0; j < reviewArray[i].rating; j++) {
                 rating += "<img src='assets/IconFilled.png' style='width:50px' />";
             }
-            document.getElementById("rating" + i).insertAdjacentHTML('afterbegin', rating );
+            document.getElementById("rating" + i).insertAdjacentHTML('afterbegin', rating);
         }
     }
 
 }
-function populateModal(id){
+
+function populateModal(id) {
     var rest_array = JSON.parse(sessionStorage.getItem("restaurantArray"));
     var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
-    sessionStorage.setItem("id", id);
 
-    document.getElementById("modalRestaurantName").innerHTML = "Review for: " + rest_array[reviewArray[id].restaurantID].name;
-    document.getElementById("modalRestaurantName").value = reviewArray[id].restaurantID;
-    document.getElementById("reviewTitle").value = reviewArray[id].title;
-    document.getElementById("reviewText").value = reviewArray[id].review;
-    document.getElementById("modalTime").innerHTML = "Time of review: "+new Date(Date.parse(reviewArray[id].submissionDate));
-    displayFilledJar("editJar", reviewArray[id].rating);
+    for (var count = 0; count < rest_array.length; count++) {
+        if (rest_array[count].restaurantID == reviewArray[id].restaurantID) {
+            sessionStorage.setItem("id", id);
+            console.log('rest_array[reviewArray[id].restaurantID].name: ', rest_array[count].name);
+            document.getElementById("modalRestaurantName").innerHTML = "Review for: " + rest_array[count].name;
+
+            document.getElementById("modalRestaurantName").value = reviewArray[id].restaurantID;
+            document.getElementById("reviewTitle").value = reviewArray[id].title;
+            document.getElementById("reviewText").value = reviewArray[id].review;
+            document.getElementById("modalTime").innerHTML = "Time of review: " + new Date(Date.parse(reviewArray[id].submissionDate));
+            displayFilledJar("editJar", reviewArray[id].rating);
+        }
+    }
+
 }

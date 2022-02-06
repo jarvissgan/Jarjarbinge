@@ -3,15 +3,16 @@
         <div class="modal-content">
             <div class="modal-header bg-dark text-center">
                 <h5 class="modal-title text-light" id="review">Review</h5>
-                <button type="button" class="btn btn-primary" id="deleteReview" onClick="deleteReview()">Delete
+                <button type="button" class="btn btn-danger" id="deleteReview" onClick="deleteReview()">Delete
                     Review</button>
             </div>
             <div class="modal-body">
                 <div id="restaurantID"></div>
                 <div id="modalRestaurantName"></div>
                 <label>Title:</label>
-                <input type="text" id="reviewTitle">
+                <input type="text" id="reviewTitle" style="min-width: 100%;">
                 <br>
+                Click to change rating:
                 <div id="reviewRatings">
                     <img src="assets/Icon.png" class="editJar" value='1' style="cursor:pointer"
                         onmousedown="rateIt(this)">
@@ -25,7 +26,6 @@
                         onmousedown="rateIt(this)">
                 </div>
                 <div id="modalTime"></div>
-                <br>
                 <label>Review:</label>
 
                 <textarea id="reviewText" rows="8" style="min-width: 100%;" onkeydown="return true"
