@@ -60,15 +60,15 @@
             </div> -->
         </div>
     </div>
-    <div class="row" >
+    <div class="row">
         <div id="reviewBody" class="col-md-6 text-right" style="max-width: 95%; margin: auto;">
             <label style="padding-left:15px;cursor:pointer" id="reviewRestaurant"></label>
             <div class="card card-text" style="word-wrap: break-word;">
                 <label style="padding-left:15px;cursor:pointer" id="emptyReview"></label>
             </div>
-            
+
         </div>
-        
+
 
         <div class="col-md-6 text-right padLeft" id="reviewCard">
             <div class="card card-text" style="word-wrap: break-word;">
@@ -85,8 +85,7 @@
                     <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer" onmousedown="rateIt(this)">
                 </div>
                 Review:
-                <textarea id="reviewText" rows="8" cols="100%" onkeydown="return true" oninput="countWord()"
-                    placeholder="Type your review here"></textarea>
+                <textarea id="reviewText" rows="8" cols="100%" placeholder="Type your review here"></textarea>
                 <label> Current word count: <label id="reviewCount" style="display: inline;">0</label></label>
                 <label> Remaining words: <label id="reviewRemainingCount" style="display: inline;">150</label></label>
 
@@ -106,31 +105,6 @@
     <script src="js/account.js"></script>
     <script src="js/checkToken.js"></script>
     <script src="js/reviews.js"></script>
-    <script>
-        document.querySelector("#reviewText").addEventListener("input", function countWord() {
-            let wordsLimit = 150
-            let res = [];
-            let str = this.value.replace(/[\t\n\r\.\?\!]/gm, " ").split(" ");
-            str.map((s) => {
-                let trimStr = s.trim();
-                if (trimStr.length > 0) {
-                    res.push(trimStr);
-                    wordsLimit -= 1
-                }
-            });
-            document.querySelector("#reviewCount").innerText = res.length;
-            console.log('res.length: ', res.length);
-            document.querySelector("#reviewRemainingCount").innerText = wordsLimit;
-
-            //TODO: fix backspace
-            if (res.length >= 150) {
-                document.body.onkeydown = function () {
-                    return false
-                };
-                document.getElementById("reviewRemainingCount").style = "color: red;";
-            }
-        });
-    </script>
 
     <!-- <div w3-include-html="footer.html"></div> -->
     <footer>

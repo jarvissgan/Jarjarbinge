@@ -3,6 +3,10 @@ const Review = require('../models/Review');
 const ReviewDB = require('../models/ReviewDB');
 
 var reviewDB = new ReviewDB();
+var jwt = require('jsonwebtoken');
+
+var secret = "verysecretkey"
+
 
 function getAllReview(request, respond) {
     reviewDB.getAllReview(function (error, result) {
@@ -38,15 +42,28 @@ function deleteReview(request, respond) {
 }
 
 function updateReview(request, respond) {
+    console.log('request.params.id: ', request.params.id);
     var now = new Date().toISOString().slice(0, 19).replace('T', ' '); //formats datetime to correct format : YYYY-MM-DD HH:MI:SS
-    var review = new Review(parseInt(request.params.id), request.body.userID, request.body.restaurantID, request.body.title, request.body.review, request.body.rating, now.toString());
-    reviewDB.updateReview(review, function (error, result) {
-        if (error) {
-            respond.json(error);
-        } else {
-            respond.json(result);
-        }
-    });
+    var token  = request.body.token;
+    console.log('token: ', token);
+    try{
+        var decoded = jwt.verify(token, secret);
+        console.log('decoded: ', decoded);
+        var review = new Review(parseInt(request.params.id), request.body.userID, request.body.restaurantID, request.body.title, request.body.review, request.body.rating, now.toString());
+        
+        reviewDB.updateReview(review, function (error, result) {
+            if (error) {
+                respond.json(error);
+            } else {
+                respond.json(result);
+            }
+        });
+    }catch{
+        respond.json({
+            result: "invalid token"
+        });
+    }
+    
 }
 
 function searchNameByID(request, respond) {    

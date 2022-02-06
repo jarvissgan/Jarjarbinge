@@ -19,11 +19,12 @@ function displayRest(currFilter) {
 
     //table.innerHTML = "";
     totalRest = rest_array.length;
-    
+
     for (var count = 0; count < totalRest; count++) {
         // //if(rest_array[count].cuisine == currFilter){
 
-        var thumbnail = rest_array[count].imageBlob;
+        var thumbnail = rest_array[count].image;
+        console.log('thumbnail: ', thumbnail);
         if (thumbnail == null) {
             thumbnail = "./assets/placeholder.png";
         }
@@ -32,7 +33,7 @@ function displayRest(currFilter) {
         // }
 
         var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
-                        <h5 style="padding-left:30px;cursor:pointer" id="'+count+ '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
+                        <h5 style="padding-left:30px;cursor:pointer" id="' + count + '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
                     </div>'
         table.insertAdjacentHTML('afterbegin', cell);
         restCount++;
@@ -44,12 +45,12 @@ function displayRest(currFilter) {
     document.getElementById("parent").textContent = "";
 }
 
-function saveRestaurantDetail(count){
+function saveRestaurantDetail(count) {
     sessionStorage.setItem("count", count);
     window.location.replace('restaurantDetails.html');
 }
 
-function loadRestaurantOnPage(){
+function loadRestaurantOnPage() {
     rest_array = sessionStorage.getItem("restaurantArray");
     rest_array = JSON.parse(rest_array);
     console.log('rest_array: ', rest_array);
@@ -58,7 +59,8 @@ function loadRestaurantOnPage(){
     console.log(rest_array[count].name);
 
     window.onload = onPageload();
-    function onPageload(){
+
+    function onPageload() {
         console.log('document.getElementById("restaurantName"): ', document.getElementById("restaurantName"));
 
         document.getElementById("restaurantName").textContent = rest_array[count].name;
@@ -66,4 +68,51 @@ function loadRestaurantOnPage(){
         document.getElementById("restaurantAddress").textContent = rest_array[count].address;
         document.getElementById("restaurantCuisine").textContent = rest_array[count].cuisine;
     }
+}
+
+async function addNewRestaurant() {
+    let formData = new FormData();
+    try {
+        if (sessionStorage.getItem("token") != "") {
+            formData.append('token', sessionStorage.getItem('token'));
+            formData.append('name', document.getElementById("addRestaurantName").value);
+            formData.append('description', document.getElementById("addRestaurantDescription").value);
+            formData.append('address', document.getElementById("addRestaurantAddress").value);
+            formData.append('cuisine', document.getElementById("addRestaurantCuisine").value);
+            formData.append('price', document.getElementById("addRestaurantPrice").value);
+            formData.append('image', document.querySelector("#restaurantImage").src);
+            formData.append('email', document.getElementById("addRestaurantEmail").value);
+            formData.append('number', document.getElementById("addRestaurantNumber").value);
+
+            let response = await fetch('http://127.0.0.1:8080/restaurant', {
+                method: 'POST',
+                body: formData
+            });
+            console.log('formData: ', formData);
+            let result = await response.text().then(alert(),window.location.replace("index.html"));
+
+        } else {
+            throw "invalid login, try again";
+        }
+
+    } catch (error) {
+        alert(error);
+    }
+}
+function restaurantFileConvert() {
+    var uploadArray = document.getElementById("restaurantPicture");
+    uploadArray.addEventListener("change", function () {
+        console.log("ARRAY:", uploadArray.files);
+        var selectedFile = uploadArray.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            selectedFile.src = e.target.result;
+            var srcData = e.target.result;
+            console.log('srcData: ', srcData);
+            document.querySelector("#restaurantImage").src = srcData;
+            console.log('document.querySelector("#restaurantImage").src: ', document.querySelector("#restaurantImage").src);
+        }
+        reader.readAsDataURL(selectedFile);
+    });
+
 }

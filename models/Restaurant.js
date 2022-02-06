@@ -1,8 +1,8 @@
 "use strict";
 
 class Restaurant{
-    constructor(restaurantID, name, description, address, cuisine, price, imageBlob, email, number){
-        this.restaurantID = restaurantID; this.name = name; this.description = description; this.address = address; this.cuisine = cuisine; this.price = price; this.imageBlob = imageBlob; this.email = email; this.number = number;
+    constructor(restaurantID, name, description, address, cuisine, price, image, email, number){
+        this.restaurantID = restaurantID; this.name = name; this.description = description; this.address = address; this.cuisine = cuisine; this.price = price; this.image = image; this.email = email; this.number = number;
     }
     getRestaurantID(){
         return this.restaurantID;
@@ -23,7 +23,7 @@ class Restaurant{
         return this.price;
     }
     getRestaurantImage(){
-        return this.imageBlob;
+        return this.image;
     }
     getRestaurantEmail(){
         return this.email;
@@ -50,9 +50,9 @@ class Restaurant{
     setRestaurantPrice(price){
         this.price = price;
     }
-    setRestaurantImage(imageBlob){
+    setRestaurantImage(image){
     //TODO: check how to store blobs
-    this.imageBlob = imageBlob;
+    this.image = image;
     }
     setRestaurantEmail(email){
         this.email = email;

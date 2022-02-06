@@ -7,7 +7,7 @@ class RestaurantDB{
         db.query(sql, callback)
     }
     addRestaurant(restaurant, callback){
-        var sql = "INSERT INTO restaurant (name, description, address, cuisine, price, imageBlob, email, number) VALUES (?,?,?,?,?,?,?,?)";
+        var sql = "INSERT INTO restaurant (name, description, address, cuisine, price, image, email, number) VALUES (?,?,?,?,?,?,?,?)";
         db.query(sql, [restaurant.getRestaurantName(), restaurant.getRestaurantDescription(), restaurant.getRestaurantAddress(), restaurant.getRestaurantCuisine(),
             restaurant.getRestaurantPrice(), restaurant.getRestaurantImage(), restaurant.getRestaurantEmail(), restaurant.getRestaurantNumber()], callback);
     }
@@ -16,7 +16,7 @@ class RestaurantDB{
         return db.query(sql, [restaurant], callback);
     }
     updateRestaurant(restaurant, callback){
-        var sql = "UPDATE restaurant SET name = ?, description = ?, address = ?, cuisine = ?, price = ?, imageBlob = ?, email = ?, number = ? WHERE restaurantID = ?";
+        var sql = "UPDATE restaurant SET name = ?, description = ?, address = ?, cuisine = ?, price = ?, image = ?, email = ?, number = ? WHERE restaurantID = ?";
         return db.query(sql, [restaurant.getRestaurantName(), restaurant.getRestaurantDescription(), restaurant.getRestaurantAddress(), restaurant.getRestaurantCuisine(), restaurant.getRestaurantPrice(), restaurant.getRestaurantImage(), restaurant.getRestaurantEmail(), restaurant.getRestaurantNumber(), restaurant.getRestaurantID() ], callback);
     }
 }

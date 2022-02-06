@@ -147,9 +147,11 @@ async function loadProfile() {
     document.getElementById("reviewBy").innerHTML = "Reviews By: " + userArray.username;
 
     //get comments to display on profile
-    reviewArray = await getReviewData();
+    var reviewArray = await getReviewData();
+
     rating = 0;
     document.getElementById("emptyReview").innerHTML = "No review";
+    sessionStorage.setItem("reviewArray", JSON.stringify(reviewArray))
 
     for (var i = 0; i < reviewArray.length; i++) {
         if(reviewArray[i].userID === userArray.userID){
@@ -162,20 +164,32 @@ async function loadProfile() {
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
             <label style="padding-left:15px;cursor:pointer" id="reviewName">' + reviewArray[i].title + '</label>\
+            <div class="inline-block" style="padding-left:15px;" id="rating'+ i +'"></div>\
             <label style="padding-left:15px;cursor:pointer" id="reviewBy">By: ' + username + ", " + submissionDate + '</label>\
             <div>\
-            <img src="assets/Icon.png" class="jar" value="1" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="2" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer">\
-            </div>\
             <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + reviewArray[i].review + '</label>\
-            <input type="button" value="Edit Review" onclick="">\
+            <input type="button" id="'+ i +'"value="Edit Review" data-toggle="modal" data-target="#reviewModal" data-dismiss="modal" onclick="populateModal(this.id)">\
             </div>\
             </div>';
             document.getElementById("reviewBody").insertAdjacentHTML('beforeend', html);
+            var rating = "";
+            for (var j = 0; j < reviewArray[i].rating; j++) {
+                rating += "<img src='assets/IconFilled.png' style='width:50px' />";
+            }
+            document.getElementById("rating" + i).insertAdjacentHTML('afterbegin', rating );
         }
     }
 
+}
+function populateModal(id){
+    var rest_array = JSON.parse(sessionStorage.getItem("restaurantArray"));
+    var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
+    sessionStorage.setItem("id", id);
+
+    document.getElementById("modalRestaurantName").innerHTML = "Review for: " + rest_array[reviewArray[id].restaurantID].name;
+    document.getElementById("modalRestaurantName").value = reviewArray[id].restaurantID;
+    document.getElementById("reviewTitle").value = reviewArray[id].title;
+    document.getElementById("reviewText").value = reviewArray[id].review;
+    document.getElementById("modalTime").innerHTML = "Time of review: "+new Date(Date.parse(reviewArray[id].submissionDate));
+    displayFilledJar("editJar", reviewArray[id].rating);
 }

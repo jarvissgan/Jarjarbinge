@@ -37,26 +37,27 @@ async function displayReviews() {
             // console.log(review_array[i]);
             document.getElementById("emptyReview").innerHTML = "";
             selectedRestaurantID = rest_array[count].restaurantID;
-            star = "";
             var submissionDate = new Date(Date.parse(review_array[i].submissionDate));
             // console.log('getUserByID(review_array[i].userID): ', await getUserByID(review_array[i].userID));
             const username = await getUserByID(review_array[i].userID);
 
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;cursor:pointer" id="reviewName">' + review_array[i].title + '</label>\
+            <label style="padding-left:15px;cursor:pointer">' + review_array[i].title + '</label>\
+            <div class="inline-block" style="padding-left:15px;" id="rating' + i + '"></div>\
             <label style="padding-left:15px;cursor:pointer" id="reviewBy">By: ' + username.username + ", " + submissionDate + '</label>\
             <div>\
-            <img src="assets/Icon.png" class="jar" value="1" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="2" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer">\
-                    <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer">\
-            </div>\
             <label style="padding-left:15px;cursor:pointer" id="reviewContent">' + review_array[i].review + '</label>\
             </div>\
             </div>';
             document.getElementById("reviewBody").insertAdjacentHTML('beforeend', html);
+
+            var rating = "";
+            for (var j = 0; j < review_array[i].rating; j++) {
+                console.log(i);
+                rating += "<img src='assets/IconFilled.png' style='width:50px' />";
+            }
+            document.getElementById("rating" + i).insertAdjacentHTML('afterbegin', rating);
         }
 
     }
@@ -122,6 +123,58 @@ async function addReview() {
 
 }
 
+async function updateReview() {
+    let formData = new FormData();
+    var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
+    var count = sessionStorage.getItem("id");
+    console.log('count: ', count);
+
+    console.log('reviewArray: ', reviewArray[count]);
+    try {
+        if (sessionStorage.getItem("token") != "") {
+            formData.append("token", sessionStorage.getItem("token"));
+            formData.append("restaurantID", reviewArray[count].restaurantID);
+            formData.append("userID", reviewArray[count].userID);
+            formData.append("title", document.getElementById("reviewTitle").value);
+            formData.append("rating", rating);
+            formData.append("review", document.getElementById("reviewText").value);
+
+            let response = await fetch('http://127.0.0.1:8080/review/' + reviewArray[count].reviewID, {
+                method: 'PUT',
+                body: formData
+            });
+            let result = await response.text().then(alert("Review Updated."), window.location.href = window.location.href)
+        } else {
+            throw "invalid login!"
+        }
+
+    } catch (error) {
+        alert(error)
+    }
+}
+
+async function deleteReview() {
+    try {
+        if (sessionStorage.getItem("token") != "") {
+            var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
+            var count = sessionStorage.getItem("id");
+
+
+            let response = await fetch('http://127.0.0.1:8080/review/' + reviewArray[count].reviewID, {
+                method: 'DELETE',
+            });
+            let result = await response.text().then(alert("Review Deleted!"), window.location.href = window.location.href)
+            console.log('result: ', result);
+
+        } else {
+            throw "invalid login!"
+        }
+
+    } catch (error) {
+        alert(error)
+    }
+}
+
 function rateIt(element) {
     var num = element.getAttribute("value");
     var classname = element.getAttribute("class");
@@ -170,24 +223,11 @@ function changeJarImage(num, classTarget) {
     }
 }
 
-var wordLimit = 150;
-var count = 0;
-
-function countWord() {
-    var words = document.getElementById("reviewText").value;
-    // console.log('words: ', words);
-
-    // Split the words on each
-    // space character
-    var split = words.split(' ');
-    // Loop through the words and
-    // increase the counter when
-    // each split word is not empty
-    for (var i = 0; i < split.length; i++) {
-        if (split[i] != "") {
-            count += 1;
-        }
+function displayFilledJar(classname, num) {
+    var pop = document.getElementsByClassName(classname);
+    var classTarget = "." + classname;
+    for (let p of pop) {
+        p.setAttribute("src", "assets/Icon.png");
     }
-    // Get the input text value
-
+    changeJarImage(num, classTarget);
 }

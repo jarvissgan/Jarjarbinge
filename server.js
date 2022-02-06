@@ -16,7 +16,9 @@ var restaurantController = require('./controllers/RestaurantController');
 var userController = require('./controllers/UserController');
 
 app.route('/restaurant').get(restaurantController.getAllRestaurant);
-app.route('/restaurant').post(restaurantController.addRestaurant);
+//app.route('/restaurant').post(restaurantController.addRestaurant);
+app.post("/restaurant", upload.any(), restaurantController.addRestaurant);
+
 app.route('/restaurant/:id').delete(restaurantController.deleteRestaurant);
 app.route('/restaurant/:id').put(restaurantController.updateRestaurant);
 
@@ -25,7 +27,9 @@ app.route('/review').post(reviewController.addReview);
 app.route('/review/:reviewID').get(reviewController.searchNameByID);
 
 app.route('/review/:id').delete(reviewController.deleteReview);
-app.route('/review/:id').put(reviewController.updateReview);
+
+app.put("/review/:id", upload.any(), reviewController.updateReview);
+//app.route('/review/:id').put(reviewController.updateReview);
 
 app.route('/user').get(userController.getAllUser);
 // app.route('/user').post(userController.addUser);
