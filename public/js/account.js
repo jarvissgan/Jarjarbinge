@@ -17,7 +17,6 @@ function userLogin(username, password) {
                 if (token != 'invalid') {
                     //adds token to session storage if token is returned
                     sessionStorage.setItem("token", token);
-                    // console.log('sessionStorage: ', sessionStorage);
 
                     //changes page to last visited page and refreshes the page
                     window.location.replace("index.html");
@@ -26,7 +25,6 @@ function userLogin(username, password) {
                     }
                 } else {
                     //if login is invalid, refreshes page to make user login again
-                    console.log('token: ', token);
                     alert("Invalid username or password, please try again");
                     window.location.href = window.location.href
 
@@ -57,7 +55,6 @@ function getUserDetails() {
                     return;
                 }
                 if (req.status === 200) {
-                    // console.log("success", req.responseText);
                     resolve(JSON.parse(req.responseText));
                 } else {
                     console.warm('request_error');
@@ -71,7 +68,6 @@ function getUserDetails() {
 
 async function accountDetails() {
     var userArray = await getUserDetails()
-    // console.log('userArray: ', userArray);
 
     document.getElementById("updateUsername").value = userArray.username;
     document.getElementById("updateFirstName").value = userArray.firstName;
@@ -103,6 +99,7 @@ async function updateUser() {
             });
             let result = await response.text().then(alert("Details Updated"), window.location.href = window.location.href);
 
+
         } else {
             throw "Passwords are not the same! Please re-enter passwords"
         }
@@ -119,7 +116,6 @@ async function deleteUser() {
     var answer = window.confirm("Are you sure? This cannot be undone.");
     if (answer) {
         userArray = await getUserDetails();
-        // console.log('userArray.userID: ', userArray.userID);
         var req = new XMLHttpRequest();
 
         req.open("DELETE", "http://127.0.0.1:8080/user/" + userArray.userID, true);
@@ -127,8 +123,7 @@ async function deleteUser() {
             //gets token from userDB and parses json
             alert("Account deleted. Redirecting to home page...");
             sessionStorage.removeItem("token");
-            // var token = req.responseText;
-            // console.log('token: ', token);
+
             window.location.replace("index.html");
         };
         req.send();
@@ -158,12 +153,11 @@ async function loadProfile() {
             document.getElementById("emptyReview").innerHTML = "";
             star = "";
             var submissionDate = new Date(Date.parse(reviewArray[i].submissionDate));
-            // console.log('getUserByID(reviewArray[i].userID): ', await getUserByID(reviewArray[i].userID));
             var username = userArray.username;
 
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;">'+ "Title: " + reviewArray[i].title + '</label>\
+            <label style="padding-left:15px;">' + "Title: " + reviewArray[i].title + '</label>\
             <label style="padding-left:15px;">Rating: </label>\
             <div class="inline-block" style="padding-left:15px;" id="rating' + i + '"></div>\
             <label style="padding-left:15px;" id="reviewBy">By: ' + username + ", " + submissionDate + '</label>\
@@ -192,7 +186,6 @@ function populateModal(id) {
     for (var count = 0; count < rest_array.length; count++) {
         if (rest_array[count].restaurantID == reviewArray[id].restaurantID) {
             sessionStorage.setItem("id", id);
-            console.log('rest_array[reviewArray[id].restaurantID].name: ', rest_array[count].name);
             document.getElementById("modalRestaurantName").innerHTML = "Review for: " + rest_array[count].name;
 
             document.getElementById("modalRestaurantName").value = reviewArray[id].restaurantID;

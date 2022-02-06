@@ -18,7 +18,8 @@ async function registerUser() {
                 method: 'POST',
                 body: formData
             });
-            let result = await response.text().then(alert("logged in!"), userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
+            alert("Registered!")
+            let result = await response.text().then(userLogin(document.getElementById("registerUsername").value, document.getElementById("registerPassword").value));
         }
     } catch (error) {
         window.location.href = window.location.href

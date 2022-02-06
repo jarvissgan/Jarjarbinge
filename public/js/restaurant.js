@@ -5,14 +5,13 @@ function getRestaurantData() {
     req.onload = function () {
         sessionStorage.setItem("restaurantArray", req.responseText);
         rest_array = JSON.parse(req.responseText);
-        console.log(rest_array);
 
-        displayRest(currFilter);
+        displayRest();
     };
     req.send();
 }
 
-function displayRest(currFilter) {
+function displayRest() {
     var table = document.getElementById("restaurantTable");
     var restCount = 0;
     var message = "";
@@ -22,16 +21,12 @@ function displayRest(currFilter) {
     restaurantTable.innerHTML = "";
 
     for (var count = 0; count < totalRest; count++) {
-        // //if(rest_array[count].cuisine == currFilter){
-
         var thumbnail = rest_array[count].image;
-        // console.log('thumbnail: ', thumbnail);
         if (thumbnail == null) {
             thumbnail = "./assets/placeholder.png";
         }
 
         var title = rest_array[count].name;
-        // }
 
         var cell = '<div class="card col-md-3" ><img class="card-img-top" src="' + thumbnail + '" alt="Card image cap">\
                         <h5 style="padding-left:30px;cursor:pointer" id="' + count + '"class="card-title" item="' + count + '" onClick="saveRestaurantDetail(this.id)">' + title + '</h5>\
@@ -39,8 +34,6 @@ function displayRest(currFilter) {
         table.insertAdjacentHTML('afterbegin', cell);
         restCount++;
     }
-    console.log("restTable", document.getElementById("restaurantTable"));
-    console.log("Restaurant count: ", restCount);
     message = restCount + " Restaurants total";
     document.getElementById("summary").textContent = message;
     document.getElementById("parent").textContent = "";
@@ -54,15 +47,12 @@ function saveRestaurantDetail(count) {
 function loadRestaurantOnPage() {
     rest_array = sessionStorage.getItem("restaurantArray");
     rest_array = JSON.parse(rest_array);
-    console.log('rest_array: ', rest_array);
     count = sessionStorage.getItem("count");
-    console.log('count: ', count);
-    console.log(rest_array[count].name);
+
 
     window.onload = onPageload();
 
     function onPageload() {
-        console.log('document.getElementById("restaurantName"): ', document.getElementById("restaurantName"));
         document.getElementById("restaurantImage").src = rest_array[count].image;
         document.getElementById("restaurantName").textContent = rest_array[count].name;
         document.getElementById("restaurantDescription").textContent = rest_array[count].description;
@@ -93,8 +83,7 @@ async function addNewRestaurant() {
                 method: 'POST',
                 body: formData
             });
-            console.log('formData: ', formData);
-            let result = await response.text().then(alert(), window.location.replace("index.html"));
+            let result = await response.text().then(alert("Restaurant Added!"), window.location.replace("index.html"));
 
         } else {
             throw "invalid login, try again";
@@ -108,15 +97,12 @@ async function addNewRestaurant() {
 function restaurantFileConvert() {
     var uploadArray = document.getElementById("restaurantPicture");
     uploadArray.addEventListener("change", function () {
-        console.log("ARRAY:", uploadArray.files);
         var selectedFile = uploadArray.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
             selectedFile.src = e.target.result;
             var srcData = e.target.result;
-            console.log('srcData: ', srcData);
             document.querySelector("#restaurantImage").src = srcData;
-            console.log('document.querySelector("#restaurantImage").src: ', document.querySelector("#restaurantImage").src);
         }
         reader.readAsDataURL(selectedFile);
     });
@@ -133,7 +119,6 @@ function searchRestaurant() {
     for (var count = 0; count < totalRest; count++) {
         if (rest_array[count].name.toLowerCase().includes(document.getElementById("searchBar").value.toLowerCase())) {
             var thumbnail = rest_array[count].image;
-            console.log('thumbnail: ', thumbnail);
             if (thumbnail == null) {
                 thumbnail = "./assets/placeholder.png";
             }
@@ -146,8 +131,6 @@ function searchRestaurant() {
             restCount++;
         }
     }
-    console.log("restTable", document.getElementById("restaurantTable"));
-    console.log("Restaurant count: ", restCount);
     message = restCount + " Restaurants total";
     document.getElementById("summary").textContent = message;
     document.getElementById("parent").textContent = "";
@@ -155,7 +138,6 @@ function searchRestaurant() {
 
 function filterBy(catergory){
     catergory = catergory.innerHTML
-    console.log(catergory);
 
     var table = document.getElementById("restaurantTable");
     var restCount = 0;
@@ -166,7 +148,6 @@ function filterBy(catergory){
     for (var count = 0; count < totalRest; count++) {
         if (rest_array[count].cuisine.toLowerCase().includes(catergory.toLowerCase())) {
             var thumbnail = rest_array[count].image;
-            console.log('thumbnail: ', thumbnail);
             if (thumbnail == null) {
                 thumbnail = "./assets/placeholder.png";
             }
@@ -179,8 +160,6 @@ function filterBy(catergory){
             restCount++;
         }
     }
-    console.log("restTable", document.getElementById("restaurantTable"));
-    console.log("Restaurant count: ", restCount);
     message = restCount + " Restaurants total";
     document.getElementById("summary").textContent = message;
     document.getElementById("parent").textContent = "";
@@ -188,7 +167,6 @@ function filterBy(catergory){
 
 function filterByRating(catergory){
     catergory = catergory.innerHTML
-    console.log(catergory);
 
     var table = document.getElementById("restaurantTable");
     var restCount = 0;
@@ -199,7 +177,6 @@ function filterByRating(catergory){
     for (var count = 0; count < totalRest; count++) {
         if (rest_array[count].price.toLowerCase() == catergory.toLowerCase()) {
             var thumbnail = rest_array[count].image;
-            console.log('thumbnail: ', thumbnail);
             if (thumbnail == null) {
                 thumbnail = "./assets/placeholder.png";
             }
@@ -212,8 +189,6 @@ function filterByRating(catergory){
             restCount++;
         }
     }
-    console.log("restTable", document.getElementById("restaurantTable"));
-    console.log("Restaurant count: ", restCount);
     message = restCount + " Restaurants total";
     document.getElementById("summary").textContent = message;
     document.getElementById("parent").textContent = "";
