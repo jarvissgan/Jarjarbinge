@@ -21,7 +21,6 @@ function addRestaurant(request, respond){
 
     try{
         var decoded = jwt.verify(token, secret);
-        console.log('decoded: ', decoded);
         var restaurant = new Restaurant(null, request.body.name, request.body.description, request.body.address, request.body.cuisine, request.body.price, request.body.image, request.body.email, request.body.number);
         restaurantDB.addRestaurant(restaurant, function(error, result){
             if(error){

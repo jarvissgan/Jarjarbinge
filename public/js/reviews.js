@@ -1,7 +1,7 @@
 function getReviewData() {
     //pulls review data from db and adds to review_array
     var req = new XMLHttpRequest();
-
+    //uses promise to ensure data is passed
     return new Promise((resolve, reject) => {
         setTimeout(function () {
             req.onreadystatechange = (e) => {
@@ -9,7 +9,6 @@ function getReviewData() {
                     return;
                 }
                 if (req.status === 200) {
-                    // console.log("success", req.responseText);
                     resolve(JSON.parse(req.responseText));
                 } else {
                     console.warm('request_error');
@@ -25,7 +24,6 @@ async function displayReviews() {
     rating = 0;
     //rest_array = rest_array;
     review_array = await getReviewData();
-    // console.log('review_array: ', review_array);
 
     document.getElementById("emptyReview").innerHTML = "No review";
     count = sessionStorage.getItem("count");
@@ -33,8 +31,7 @@ async function displayReviews() {
 
     for (var i = 0; i < review_array.length; i++) {
         if (review_array[i].restaurantID === rest_array[count].restaurantID) {
-
-            // console.log(review_array[i]);
+            //compares rest_array id value to review_array id values, if matches displays the values onto the page
             document.getElementById("emptyReview").innerHTML = "";
             selectedRestaurantID = rest_array[count].restaurantID;
             var submissionDate = new Date(Date.parse(review_array[i].submissionDate));
@@ -43,7 +40,7 @@ async function displayReviews() {
 
             var html = '<div id="reviewCard" class="col text-right" style="max-width: 95%; margin: auto;">\
             <div class="card card-text" style="word-wrap: break-word;">\
-            <label style="padding-left:15px;">'+ "Title: " + review_array[i].title + '</label>\
+            <label style="padding-left:15px;">' + "Title: " + review_array[i].title + '</label>\
             <label style="padding-left:15px;">Rating: </label>\
             <div class="inline-block" style="padding-left:15px;" id="rating' + i + '"></div>\
             <label style="padding-left:15px;" id="reviewBy">By: ' + username.username + ", " + submissionDate + '</label>\
@@ -57,21 +54,17 @@ async function displayReviews() {
 
             var rating = "";
             for (var j = 0; j < review_array[i].rating; j++) {
-                console.log(i);
                 rating += "<img src='assets/IconFilled.png' style='width:50px' />";
             }
             document.getElementById("rating" + i).insertAdjacentHTML('afterbegin', rating);
         }
 
     }
-
-
 }
-
 
 function getUserByID(reviewID) {
     var req = new XMLHttpRequest();
-
+    //pulls user data from db
     return new Promise((resolve, reject) => {
         setTimeout(function () {
             req.onreadystatechange = (e) => {
@@ -95,8 +88,8 @@ function getUserByID(reviewID) {
 async function addReview() {
     //if token exists
     if (sessionStorage.getItem("token")) {
+        //adds review to reviewObject and sends to database
         const userDetails = await getUserDetails();
-        // console.log('userDetails: ', userDetails);
         var reviewObject = new Object();
 
         reviewObject.restaurantID = rest_array[sessionStorage.getItem("count")].restaurantID;
@@ -130,11 +123,12 @@ async function updateReview() {
     let formData = new FormData();
     var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
     var count = sessionStorage.getItem("id");
-    console.log('count: ', count);
 
-    console.log('reviewArray: ', reviewArray[count]);
     try {
+        //checks if token exists
         if (sessionStorage.getItem("token") != "") {
+            //adds update review data to reviewObject and sends to database
+
             formData.append("token", sessionStorage.getItem("token"));
             formData.append("restaurantID", reviewArray[count].restaurantID);
             formData.append("userID", reviewArray[count].userID);
@@ -146,6 +140,7 @@ async function updateReview() {
                 method: 'PUT',
                 body: formData
             });
+            //upon recieving response, shows message and reloads page
             let result = await response.text().then(alert("Review Updated."), window.location.href = window.location.href)
         } else {
             throw "invalid login!"
@@ -158,20 +153,23 @@ async function updateReview() {
 
 async function deleteReview() {
     try {
+        //checks if token exists
         if (sessionStorage.getItem("token") != "") {
+            //if token exists, prompts for user input
             if (confirm('Are you sure you want to delete this review?')) {
+                //if user confirms, delete review from database
                 var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
                 var count = sessionStorage.getItem("id");
-    
-    
+
+
                 let response = await fetch('http://127.0.0.1:8080/review/' + reviewArray[count].reviewID, {
                     method: 'DELETE',
                 });
+                //upon recieving response, shows message and reloads page
                 let result = await response.text().then(alert("Review Deleted!"), window.location.href = window.location.href)
-                console.log('result: ', result);
-              } else {
+            } else {
                 // Do nothing!
-              }
+            }
 
         } else {
             throw "invalid login!"
@@ -194,8 +192,6 @@ function rateIt(element) {
 }
 
 function changeJarImage(num, classTarget) {
-    // console.log('num: ', num);
-    // console.log('classTarget: ', classTarget);
     switch (eval(num)) {
         case 1:
             document.querySelector(classTarget + "[value='1']").setAttribute("src", "assets/IconFilled.png");

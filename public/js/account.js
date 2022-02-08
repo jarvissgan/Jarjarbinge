@@ -1,7 +1,9 @@
 //userLogin(username, password) so that i can login without typing out another query in other js files :D
 function userLogin(username, password) {
     try {
+        //checks if user has typed anything in text boxes
         if (username == "" || password == "") {
+            //throws error if nothing is entered
             throw "invalid login, please try again"
         } else {
             //creates new XMLHttpRequest
@@ -47,7 +49,7 @@ function logoutUser() {
 
 function getUserDetails() {
     var req = new XMLHttpRequest();
-
+    //gets user details using promise, to ensure that the data is loaded
     return new Promise((resolve, reject) => {
         setTimeout(function () {
             req.onreadystatechange = (e) => {
@@ -68,7 +70,7 @@ function getUserDetails() {
 
 async function accountDetails() {
     var userArray = await getUserDetails()
-
+    //calls function getUserDetails and fills in data
     document.getElementById("updateUsername").value = userArray.username;
     document.getElementById("updateFirstName").value = userArray.firstName;
     document.getElementById("updateLastName").value = userArray.lastName;
@@ -81,7 +83,7 @@ async function accountDetails() {
 async function updateUser() {
     let formData = new FormData();
     try {
-
+        //checks if the passwords entered is the same, and adds user details into formData and sends it to the database
         if (document.getElementById("updatePassword").value == document.getElementById("updateRePassword").value) {
             formData.append('token', sessionStorage.getItem('token'));
             formData.append('username', document.getElementById("updateUsername").value);
@@ -97,15 +99,18 @@ async function updateUser() {
                 method: 'PUT',
                 body: formData
             });
+            //upon recieving a response, shows a message that the details is updated and reloads the page.
             let result = await response.text().then(alert("Details Updated"), window.location.href = window.location.href);
 
 
         } else {
+            //if passwords don't match
             throw "Passwords are not the same! Please re-enter passwords"
         }
 
     } catch (error) {
         alert(error);
+        //resets the password fields
         document.getElementById("updatePassword").value = "";
         document.getElementById("updateRePassword").value = "";
     }
@@ -113,6 +118,7 @@ async function updateUser() {
 }
 
 async function deleteUser() {
+    //prompts for user input before deleting
     var answer = window.confirm("Are you sure? This cannot be undone.");
     if (answer) {
         userArray = await getUserDetails();
@@ -123,7 +129,7 @@ async function deleteUser() {
             //gets token from userDB and parses json
             alert("Account deleted. Redirecting to home page...");
             sessionStorage.removeItem("token");
-
+            //redirects user to index.html after deleting
             window.location.replace("index.html");
         };
         req.send();
@@ -149,7 +155,9 @@ async function loadProfile() {
     sessionStorage.setItem("reviewArray", JSON.stringify(reviewArray))
 
     for (var i = 0; i < reviewArray.length; i++) {
+        //checks if user the review id in review array matches the id in userArray
         if (reviewArray[i].userID === userArray.userID) {
+            //if id matches, loads reviews onto the user profile
             document.getElementById("emptyReview").innerHTML = "";
             star = "";
             var submissionDate = new Date(Date.parse(reviewArray[i].submissionDate));
@@ -180,18 +188,22 @@ async function loadProfile() {
 }
 
 function populateModal(id) {
+    //populates the modal, which is used to edit reviews.
     var rest_array = JSON.parse(sessionStorage.getItem("restaurantArray"));
     var reviewArray = JSON.parse(sessionStorage.getItem("reviewArray"));
 
     for (var count = 0; count < rest_array.length; count++) {
+        //populates text boxes if restaurant id in review matches the reviewID in restaurant araray
         if (rest_array[count].restaurantID == reviewArray[id].restaurantID) {
             sessionStorage.setItem("id", id);
+            //displays name of restaurant
             document.getElementById("modalRestaurantName").innerHTML = "Review for: " + rest_array[count].name;
-
             document.getElementById("modalRestaurantName").value = reviewArray[id].restaurantID;
             document.getElementById("reviewTitle").value = reviewArray[id].title;
             document.getElementById("reviewText").value = reviewArray[id].review;
             document.getElementById("modalTime").innerHTML = "Time of review: " + new Date(Date.parse(reviewArray[id].submissionDate));
+
+            //populates rating with displayFilledJar
             displayFilledJar("editJar", reviewArray[id].rating);
         }
     }

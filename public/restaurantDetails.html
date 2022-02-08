@@ -14,11 +14,11 @@
     <div w3-include-html="top-navigation.html"></div>
 
     <div class="container">
-    <input type="button" id="buttonBack" value="Back to main page" onclick="window.location.replace('index.html')">
+        <input type="button" id="buttonBack" value="Back to main page" onclick="window.location.replace('index.html')">
 
         <div class="row">
             <img class="col-4" id="restaurantImage" style="margin-left: 30px; margin-top: 15px;" />
-    
+
             <div id="restaurantDetails" class="col">
                 <div>
                     Name of Restaurant:
@@ -42,7 +42,7 @@
                 <div>
                     Contact Information:
                     <a id="restaurantNumber"></a>,
-                    <a id="restaurantEmail" >aaaa</a>
+                    <a id="restaurantEmail">aaaa</a>
                 </div>
                 <!-- TODO: price jars
                 <div>
@@ -56,33 +56,38 @@
                 <div class="card card-text" style="word-wrap: break-word;">
                     <label style="padding-left:15px;cursor:pointer" id="emptyReview"></label>
                 </div>
-    
+
             </div>
-    
-    
+
+
             <div class="col-md-6 text-right padLeft" id="reviewCard">
                 <div class="card card-text" style="word-wrap: break-word;">
                     <label>Type your review here:</label>
-    
+
                     Review Title:
                     <input type="text" id="reviewTitle" placeholder="Type your title here">
                     Rating:
                     <div id="reviewRatings">
-                        <img src="assets/Icon.png" class="jar" value='1' style="cursor:pointer" onmousedown="rateIt(this)">
-                        <img src="assets/Icon.png" class="jar" value='2' style="cursor:pointer" onmousedown="rateIt(this)">
-                        <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer" onmousedown="rateIt(this)">
-                        <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer" onmousedown="rateIt(this)">
-                        <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer" onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value='1' style="cursor:pointer"
+                            onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value='2' style="cursor:pointer"
+                            onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="3" style="cursor:pointer"
+                            onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="4" style="cursor:pointer"
+                            onmousedown="rateIt(this)">
+                        <img src="assets/Icon.png" class="jar" value="5" style="cursor:pointer"
+                            onmousedown="rateIt(this)">
                     </div>
                     Review:
                     <textarea id="reviewText" rows="8" cols="100%" placeholder="Type your review here"></textarea>
-    
+
                     <input type="submit" id="reviewSubmit" onclick="addReview()">
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script src="https://w3schools.com/lib/w3.js"></script>
     <script>
         w3.includeHTML();
@@ -100,6 +105,9 @@
     <footer>
         (not) Copyright &copy; Jarvis 12/1/2022
     </footer>
+    <div w3-include-html="aboutModal.html"></div>
+
+
 </body>
 
 </html>
